@@ -1,0 +1,12 @@
+TO-DO:
+1.	Handle signals: ctrl-C, ctrl-D, ctrl-\
+2.	$? to give exit status of most recent command
+3. Pipes
+4. I/O stream redirection
+5. Error handling
+
+COMPLETED:
+1. Quotes and escapes
+2. Envn var expansions
+3. Read from heredoc and append to tokenlist
+4. Some builtins: echo, pwd, env, cd (cd is 80% completed)
