@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 13:43:41 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/04 14:53:55 by qtay             ###   ########.fr       */
+/*   Updated: 2024/09/04 17:33:48 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	main(int ac, char **av, char **envp)
 	t_tokenlist	*tokenlist;
 
 	((void)ac, (void)av);
+	envp = dup_envp(envp);
 	while (true)
 	{
 		config_signals();
@@ -58,5 +59,6 @@ int	main(int ac, char **av, char **envp)
 		free(input);
 		free_tokenlist(tokenlist);
 	}
+	free_double_arr(envp);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:48:20 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/02 20:15:43 by qtay             ###   ########.fr       */
+/*   Updated: 2024/09/04 15:20:38 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,9 @@ void	change_pwd(char **envp)
  * 
  * cd seems to be working but not sure if OLDPWD and PWD are changed - need to check
  * 
- * Check that it works for relative and absolute path
+ * Check that it works for relative and absolute path.
+ * 
+ * Note: the commented part is just error checking; can optionally be removed
  */
 int	ft_cd(t_tokennode *args, char **envp)
 {

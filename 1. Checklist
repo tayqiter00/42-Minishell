@@ -1,7 +1,9 @@
 TO-DO:
 1.	Handle signals: ctrl-C, ctrl-D, ctrl-\ (functions needed alr written)
 2.	Error handling - especially exit status of child processes (functions needed alr written)
-3.	Pipes and I/O stream redirection (Need 1 and 2)
+3.	Pipes and I/O stream redirection (Need 1, 2 and 4)
+4.	Builtins (all done except exit, unset, export)
+5.	Makefile
 
 COMPLETED:
 1.	Quotes and escapes
