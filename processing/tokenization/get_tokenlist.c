@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:59:22 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/03 00:09:44 by qtay             ###   ########.fr       */
+/*   Updated: 2024/09/03 18:20:30 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ t_tokenlist *create_tokenlist(void)
 
     tokenlist = malloc(sizeof(t_tokenlist));
     if (tokenlist == NULL)
-        dprintf(STDERR_FILENO, "malloc failed for create_tokenlist\n"); // ft_dprintf()
+	{
+        dprintf(STDERR_FILENO, "malloc failed for create_tokenlist\n");
+		exit(MALLOC_ERROR);
+	}
     tokenlist->head = NULL;
     return (tokenlist);
 }
@@ -33,6 +36,11 @@ t_tokennode *create_tokennode(char *token, bool metachar)
     t_tokennode *new_tokennode;
 
     new_tokennode = malloc(sizeof(t_tokennode));
+    if (new_tokennode == NULL)
+	{
+        dprintf(STDERR_FILENO, "malloc failed for create_tokennode\n");
+		exit(MALLOC_ERROR);
+	}
     new_tokennode->token = token;
     new_tokennode->next = NULL;
 	new_tokennode->is_meta_char = metachar;
@@ -64,6 +72,9 @@ void    link_tokenlist(t_tokennode *tokennode, t_tokenlist *tokenlist)
 	}
 }
 
+/**
+ * create_heredoc seems to work but still need to double check
+ */
 t_tokenlist	*get_tokenlist(char *input, char **envp)
 {
     t_tokenlist *tokenlist;

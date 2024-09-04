@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:19:30 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/02 14:30:59 by qtay             ###   ########.fr       */
+/*   Updated: 2024/09/04 14:53:49 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 # include "token.h"
 # include "../libft/libft.h"
 # include "sys_headers.h"
+
+# define SYNTAX_ERROR 2
+# define MALLOC_ERROR 3
+# define OPEN_ERROR 4
 
 /* ************************************************************************** */
 /*                              CHARACTER CHECKS                              */
@@ -71,5 +75,10 @@ char	*create_heredoc(char *delim, char **envp);
 
 int	ft_echo(t_tokennode *args);
 int	ft_pwd(void);
+
+int	*errno_(void);
+void	set_exit_status(int status);
+int	get_exit_status(void);
+void	config_signals(void);
 
 #endif

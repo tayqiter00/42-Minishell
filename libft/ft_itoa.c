@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtay <qtay@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 18:26:31 by qtay              #+#    #+#             */
-/*   Updated: 2024/02/29 13:46:44 by qtay             ###   ########.fr       */
+/*   Updated: 2024/09/04 15:09:03 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*ft_itoa(int n)
 	}
 	buffer = (char *)malloc(sizeof(char) * (len + 1));
 	if (!buffer)
-		return (0);
+		exit(3);
 	buffer[len] = '\0';
 	while (len--)
 	{

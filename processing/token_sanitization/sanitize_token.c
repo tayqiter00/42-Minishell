@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 14:09:15 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/03 00:46:18 by qtay             ###   ########.fr       */
+/*   Updated: 2024/09/03 18:23:21 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ char	*sanitize_token(char *token)
 	if (!result)
 	{
 		dprintf(STDERR_FILENO, "malloc failed for removed quotes\n"); // ft_dprintf()
+		exit(MALLOC_ERROR);
 	}
 	dup_sanitized_token(result, token);
 	free(token);

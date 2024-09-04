@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 13:48:19 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/03 00:24:25 by qtay             ###   ########.fr       */
+/*   Updated: 2024/09/03 18:07:37 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,13 @@ char    *read_inputline(void)
     if (input == NULL)
     {
         printf("exit\n");
-        // exit(get_exit_status()); // define get_exit_status()
+        exit(EXIT_FAILURE);
     }
     add_history(input); // okay for old version of bash
     if (unclosed_quotes(input))
     {
         dprintf(STDERR_FILENO, "syntax error: unclosed quotes found\n"); // define ft_dprintf
-        // set_exit_status(2);
+        set_exit_status(SYNTAX_ERROR);
         return (NULL);
     }
     return (input);

@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 00:43:42 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/03 00:46:33 by qtay             ###   ########.fr       */
+/*   Updated: 2024/09/04 13:54:55 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,20 @@ void	dup_leading_chars(char *expanded_env, char *token, char *env)
 	}
 }
 
+/**
+ * Just added $?
+ */
 void	dup_env_value(char *expanded_env, char *env, char **envp)
 {
 	char	*env_name;
 
+	if (ft_strncmp(env, "$?", ft_strlen(env)) == 0)
+	{
+		env_name = ft_itoa(get_exit_status()); // malloc
+		strcat(expanded_env, env_name); // ft_strcat()
+		free(env_name);
+		return ;
+	}
 	env_name = ft_strjoin(env + 1, "=");
 	while (envp && *envp)
 	{

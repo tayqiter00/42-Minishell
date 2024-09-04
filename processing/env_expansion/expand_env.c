@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 14:15:10 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/03 00:46:38 by qtay             ###   ########.fr       */
+/*   Updated: 2024/09/04 13:54:35 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,20 @@ int	count_leading_chars(char *token, char *env)
 }
 
 /**
- * Valgrind says theres a leak happening here but i cant find it
+ * Just added $?
  */
 int	count_env_len(char *env, char **envp)
 {
 	char	*env_name;
 	int		ret_len;
 
+	if (ft_strncmp(env, "$?", ft_strlen(env)) == 0)
+	{
+		env_name = ft_itoa(get_exit_status());
+		ret_len = ft_strlen(env_name);
+		free(env_name);
+		return (ret_len);
+	}
 	env_name = ft_strjoin(env + 1, "=");
 	while (envp && *envp)
 	{
@@ -70,7 +77,8 @@ char	*expand_env(char *token, char **envp)
 	result = calloc((expanded_len + 1), sizeof(char)); // ft_calloc()
 	if (!result)
 	{
-		dprintf(STDERR_FILENO, "malloc failed for expanded env\n"); // ft_dprintf(), free and exit
+		dprintf(STDERR_FILENO, "malloc failed for expanded env\n");
+		exit(MALLOC_ERROR);
 	}
 	dup_expanded_token(result, token, envp);
 	if (*result)

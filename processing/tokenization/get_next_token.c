@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 16:11:49 by qtay              #+#    #+#             */
-/*   Updated: 2024/08/28 18:05:18 by qtay             ###   ########.fr       */
+/*   Updated: 2024/09/03 18:19:38 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,14 @@ char    *get_next_token(char *input)
 
     if (input != NULL)
         remaining = input;
-	if (!remaining || *remaining == '\0')
+	if (remaining == NULL || *remaining == '\0')
 		return (NULL);
 	token = remaining;
     token += skip_leading_whitespace(remaining);
     remaining = get_token_end(token);
 	if (token == remaining) // perhaps better to do !remaining || !*remaining
 		return (NULL);
-    return (ft_substr(token, 0, remaining - token));
+    return (ft_substr(token, 0, remaining - token)); // I added exit(2) to ft_substr
 }
 
 // int	main()

@@ -1,12 +1,10 @@
 TO-DO:
-1.	Handle signals: ctrl-C, ctrl-D, ctrl-\
-2.	$? to give exit status of most recent command
-3. Pipes
-4. I/O stream redirection
-5. Error handling
+1.	Handle signals: ctrl-C, ctrl-D, ctrl-\ (functions needed alr written)
+2.	Error handling - especially exit status of child processes (functions needed alr written)
+3.	Pipes and I/O stream redirection (Need 1 and 2)
 
 COMPLETED:
-1. Quotes and escapes
-2. Envn var expansions
-3. Read from heredoc and append to tokenlist
-4. Some builtins: echo, pwd, env, cd (cd is 80% completed)
+1.	Quotes and escapes
+2.	Envn var expansions, including $?
+3.	Read from heredoc and append to tokenlist
+4.	Some builtins: echo, pwd, env, cd (cd is 80% completed)

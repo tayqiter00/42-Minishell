@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtay <qtay@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:38:10 by qtay              #+#    #+#             */
-/*   Updated: 2024/03/05 11:44:53 by qtay             ###   ########.fr       */
+/*   Updated: 2024/09/03 18:25:20 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	total_len = ft_strlen(s1) + ft_strlen(s2);
 	buffer = (char *)malloc(sizeof(char) * (total_len + 1));
 	if (!buffer)
-		return (NULL);
+		exit(3);
 	while (s1[i])
 		buffer[j++] = s1[i++];
 	i = 0;
