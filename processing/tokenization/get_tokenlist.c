@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:59:22 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/03 18:20:30 by qtay             ###   ########.fr       */
+/*   Updated: 2024/09/08 16:54:10 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ t_tokenlist	*get_tokenlist(char *input, char **envp)
 	bool		heredoc_file;
 	bool		metachar;
 
+	if (input == NULL)
+		return (NULL);
 	heredoc_file = false;
     tokenlist = create_tokenlist(); // malloc
     token = get_next_token(input); // malloc (freed in expand_env)
@@ -91,10 +93,13 @@ t_tokenlist	*get_tokenlist(char *input, char **envp)
 		metachar = false;
 		if (is_metachar(token))
 			metachar = true;
-		if (is_heredoc(token) && !heredoc_file)
+		if (is_heredoc(token) && !heredoc_file) // <<
 			heredoc_file = true;
 		else if (heredoc_file)
+		{
 			token = create_heredoc(token, envp); // name of heredoc file returned
+			heredoc_file = false;
+		}
 		else
 		{
 			token = expand_env(token, envp); // malloc

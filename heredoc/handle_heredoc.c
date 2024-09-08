@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 15:51:05 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/03 18:26:47 by qtay             ###   ########.fr       */
+/*   Updated: 2024/09/06 17:29:44 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,15 @@ void	read_terminal(char *delim, char **envp, int heredoc_fd)
 	if (ft_strchr(delim, '"') || ft_strchr(delim, '\''))
 		has_quotes = true;
 	delim = sanitize_token(delim); // quote removals for actual delimiter
-	delim = ft_strjoin(delim, "\n"); // exit for malloc failure instead of return NULL
+	// delim = ft_strjoin(delim, "\n"); // exit for malloc failure instead of return NULL
 	input = readline("heredoc> "); // technically should check for readline malloc...
-	while (true) // maybe add sth related to global signal
+	if (input == NULL)
+	{
+		dprintf(STDERR_FILENO, "warning: here-document delimited by end-of-file\n"); // ft
+		free(delim);
+		return ;
+	}
+	while (get_exit_status() == 0) // maybe add sth related to global signal
 	{
 		if (!ft_strncmp(input, delim, ft_strlen(input)))
 			break ;
@@ -39,6 +45,7 @@ void	read_terminal(char *delim, char **envp, int heredoc_fd)
 	free(delim);
 	free(input);
 }
+
 /**
  * Format for heredoc: [n]<<[-]delim (not gonna handle [n] and [-])
  * 
@@ -70,7 +77,7 @@ char	*create_heredoc(char *delim, char **envp)
 	}
 	read_terminal(delim, envp, heredoc_fd);
 	close(heredoc_fd); // right now the name of the temp file still persists so need to unlink() later
-	return (name);	
+	return (ft_strdup(name));	
 }
 
 

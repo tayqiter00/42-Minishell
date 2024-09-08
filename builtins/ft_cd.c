@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:48:20 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/04 15:20:38 by qtay             ###   ########.fr       */
+/*   Updated: 2024/09/08 17:30:40 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ char	*update_oldpwd(char *curdir)
 	return (updated);
 }
 
+/**
+ * If doesnt exist, add it
+ */
 void	change_oldpwd(char *curdir, char **envp)
 {
 	while (*envp)

@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 16:11:49 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/03 18:19:38 by qtay             ###   ########.fr       */
+/*   Updated: 2024/09/06 06:06:25 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ int skip_leading_whitespace(char *remaining)
     return (ft_strspn(remaining, WHITESPACE));
 }
 
-bool    is_token(char *input)
-{
-    return (!ft_strncmp(input, "<", 1)
-        || !ft_strncmp(input, ">", 1)
-        || !ft_strncmp(input, "<<", 2)
-        || !ft_strncmp(input, ">>", 2)
-        || !ft_strncmp(input, "|", 1));
-}
+// bool    is_token(char *input)
+// {
+//     return (!ft_strncmp(input, "<", 1)
+//         || !ft_strncmp(input, ">", 1)
+//         || !ft_strncmp(input, "<<", 2)
+//         || !ft_strncmp(input, ">>", 2)
+//         || !ft_strncmp(input, "|", 1));
+// }
 
 /**
  * >> and << must come first
@@ -42,6 +42,8 @@ int token_len(char *input)
  * The first is_token() handles where input starts with token
  * The second is_token() handles those in the middle
  * Notice how they differ in their return value
+ * 
+ * I changed is_token() to is_metachar(): order matters
  */
 char    *get_token_end(char *input)
 {
@@ -52,7 +54,7 @@ char    *get_token_end(char *input)
     in_quote = false;
     quote_type = '\0';
     should_escape = false;
-    if (is_token(input))
+    if (is_metachar(input))
         return (input + token_len(input));
     while (*input)
     {
@@ -61,7 +63,7 @@ char    *get_token_end(char *input)
         else if (is_quote(*input) && !should_escape)
             set_in_quote(*input, &in_quote, &quote_type);
         else if (!should_escape && !in_quote
-            && (is_token(input) || is_whitespace(*input)))
+            && (is_metachar(input) || is_blank(*input)))
             break ;
         else if (should_escape)
             should_escape = false;

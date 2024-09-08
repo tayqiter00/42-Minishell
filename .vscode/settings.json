@@ -1,7 +1,8 @@
 {
     "files.associations": {
-        "minishell.h": "c",
-        "readline.h": "c",
-        "sys_headers.h": "c"
-    }
+		"minishell.h": "c",
+		"readline.h": "c",
+		"sys_headers.h": "c",
+		"stat.h": "c"
+	}
 }

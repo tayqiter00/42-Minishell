@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:19:30 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/04 16:17:36 by qtay             ###   ########.fr       */
+/*   Updated: 2024/09/08 09:31:23 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include "sys_headers.h"
 # include "../libft/libft.h"
 
+# define R_END 0
+# define W_END 1
 # define SYNTAX_ERROR 2
 # define MALLOC_ERROR 3
 # define OPEN_ERROR 4
@@ -32,11 +34,13 @@ void    set_in_quote(int c, bool *in_quote, int *quote_type);
 /* ************************************************************************** */
 /*                                TOKENIZATION                                */
 /* ************************************************************************** */
-
+t_tokenlist *create_tokenlist(void);
 char		*get_next_env(char *token);
 char        *get_next_token(char *input);
 t_tokenlist	*get_tokenlist(char *input, char **envp);
 int			count_leading_chars(char *token, char *env);
+t_tokennode *create_tokennode(char *token, bool metachar);
+void		link_tokenlist(t_tokennode *tokennode, t_tokenlist *tokenlist);
 
 /* ************************************************************************** */
 /*                             SHELL EXPANSIONS                               */
@@ -71,11 +75,22 @@ bool    is_newline(int c);
 bool    is_backslash(int c);
 bool    is_dollarsign(int c);
 bool	is_underscore(int c);
-bool    is_whitespace(int c);
+bool    is_blank(int c);
 bool    is_doublequote(int c);
 bool    is_singlequote(int c);
 bool    is_questionmark(int c);
 bool    is_heredoc(char *token);
 bool	is_metachar(char *token);
+bool	is_redir(char *token);
+bool    is_outfile(char *token);
+bool    is_append(char *token);
+bool    is_infile(char *token);
+
+void	free_tokenlist(t_tokenlist *tokenlist);
+t_tokennode	*pop_tokennode(t_tokenlist *tokenlist);
+void	eval_tokenlist(t_tokenlist *tokenlist);
+void	exec_cmdlist(t_tokenlist **cmdlist, bool with_pipe);
+void	free_tokennode(t_tokennode *node);
+int	get_redirfds(int redir_fds[2], t_tokenlist **cmdlist);
 
 #endif
