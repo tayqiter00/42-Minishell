@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:09:39 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/04 15:04:23 by qtay             ###   ########.fr       */
+/*   Updated: 2024/09/08 18:07:10 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
  * interrupt the child instead of re-prompting.
  * 
  * After the child finishes executing, parent has to return to the shell-
- * specific signals (meaning SIGINT back to reprompting etc).
+ * specific signals (meaning SIGINT goes back to reprompting etc).
  */
 
 void	default_signals(void)

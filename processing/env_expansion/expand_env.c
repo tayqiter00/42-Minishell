@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 14:15:10 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/04 13:54:35 by qtay             ###   ########.fr       */
+/*   Updated: 2024/09/09 14:52:12 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int		count_expanded_len(char *token, char **envp)
 		free(env);
 		env = get_next_env(NULL);
 	}
-	free(env); // check if needed
+	// free(env); // check if needed
 	return (len + ft_strlen(token));
 }
 

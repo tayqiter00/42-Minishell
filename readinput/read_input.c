@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 13:48:19 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/03 18:07:37 by qtay             ###   ########.fr       */
+/*   Updated: 2024/09/09 15:43:47 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ static bool    unclosed_quotes(char *input)
 char    *read_inputline(void)
 {
     char    *input;
-    char    *line;
 
     if (isatty(STDIN_FILENO))
         input = readline("minishell> ");

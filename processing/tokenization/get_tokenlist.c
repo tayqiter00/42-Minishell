@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:59:22 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/08 16:54:10 by qtay             ###   ########.fr       */
+/*   Updated: 2024/09/09 14:51:36 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ t_tokenlist	*get_tokenlist(char *input, char **envp)
         link_tokenlist(tokennode, tokenlist);
         token = get_next_token(NULL);
     }
-	free(token);
+	// free(token);
     return (tokenlist);
 }
 
