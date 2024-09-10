@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 05:55:09 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/06 23:40:05 by qtay             ###   ########.fr       */
+/*   Updated: 2024/09/10 18:26:09 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,33 @@ t_tokennode	*pop_tokennode(t_tokenlist *tokenlist)
 	popnode->next = NULL;
 	return (popnode);
 }
+
+void	wait_for_child(void)
+{
+	int	exit_status;
+
+	while (waitpid(-1, &exit_status, 0) > 0)
+		set_exit_status(WEXITSTATUS(exit_status));
+}
+
 /**
- *  how to make sure it's not "|"
- * 
- * Leaks happening after I added exec_cmdlist(). Still struggling to find it.
+ * how to make sure it's not "|" 
  */
-void	eval_tokenlist(t_tokenlist *tokenlist)
+void	eval_tokenlist(t_tokenlist *tokenlist, int heredoc_count)
 {
 	t_tokenlist	*cmdlist;
+	int			prev_pipefd[2];
 
+	ft_bzero(prev_pipefd, sizeof(int) * 2);
 	while (tokenlist && tokenlist->head)
 	{
 		cmdlist = create_tokenlist();
 		while (tokenlist->head && !is_pipe(*(tokenlist->head->token)))
 			link_tokenlist(pop_tokennode(tokenlist), cmdlist);
-		exec_cmdlist(&cmdlist, tokenlist->head);
+		exec_cmdlist(prev_pipefd, &cmdlist, tokenlist->head);
 		if (tokenlist->head)
 			free_tokennode(pop_tokennode(tokenlist));
 		free_tokenlist(cmdlist);
 	}
+	wait_for_child();
 }

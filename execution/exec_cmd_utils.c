@@ -6,11 +6,24 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 23:50:40 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/08 09:30:26 by qtay             ###   ########.fr       */
+/*   Updated: 2024/09/09 16:05:40 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+pid_t	create_fork(void)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == -1)
+	{
+		dprintf(STDERR_FILENO, "fork failed for pid\n"); // ft
+		exit(EXIT_FAILURE);
+	}
+	return (pid);
+}
 
 t_tokenlist	*extract_redirs(t_tokenlist **cmdlist)
 {
@@ -91,7 +104,7 @@ int	get_outfilefd(t_tokenlist *redirlist)
 	return (outfilefd);
 }
 
-int	get_redirfds(int redir_fds[2], t_tokenlist **cmdlist)
+int	get_redirfds(int redir_fds[], t_tokenlist **cmdlist)
 {
 	t_tokenlist	*redirlist;
 
