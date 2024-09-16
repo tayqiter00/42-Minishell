@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 02:28:38 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/10 18:27:09 by qtay             ###   ########.fr       */
+/*   Updated: 2024/09/16 17:24:48 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	handle_pipecmd(int pipefd[], int prev_pipefd[], t_tokenlist **cmdlist)
 	if (create_fork() == 0) 
 	{
 		child_redir(pipefd, prev_pipefd, redir_fds);
-		print_fd_filename(0);
+		// print_fd_filename(0);
 		// exit(run_cmd(*cmdlist));
 		exit(1);
 	}

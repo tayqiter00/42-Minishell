@@ -1,48 +1,70 @@
-NAME        = 
+# Directories
+OBJDIR = objs/
+SRC_FILES = driver/minishell.c \
+            processing/tokenization/get_next_token.c \
+            processing/tokenization/get_tokenlist.c \
+            checkers/char_check_1.c \
+            checkers/char_check_2.c \
+            checkers/char_check_3.c \
+            libft/ft_strspn.c \
+            libft/ft_strlen.c \
+            libft/ft_strncmp.c \
+            libft/ft_strdup.c \
+            libft/ft_substr.c \
+            libft/ft_strchr.c \
+            readinput/read_input.c \
+            processing/env_expansion/expand_env.c \
+            processing/env_expansion/expand_env_utils_1.c \
+            processing/env_expansion/expand_env_utils_2.c \
+            libft/ft_isalnum.c \
+            libft/ft_strjoin.c \
+            processing/token_sanitization/sanitize_token.c \
+            builtins/ft_echo.c \
+            heredoc/handle_heredoc.c \
+            exit_status/exit_status.c \
+            libft/ft_itoa.c \
+            driver/envp.c \
+            signals/signal.c \
+            execution/evaluate_tokenlist.c \
+            execution/execute_cmd.c \
+            checkers/char_check_4.c \
+            execution/exec_cmd_utils.c \
+            execution/exec_cmd_utils2.c \
+            execution/exec_cmd_utils3.c \
+            libft/ft_bzero.c
 
-SRC_FILES   = dinner_table.c init.c main.c philo_routine.c utils.c \
-				utils2.c waiter_routine.c
-B_SRC_FILES = dinner_table.c init.c main.c philo_routine.c routine_actions.c \
-				utils.c waiter_routine.c
+# Define object files path
+OBJS = $(patsubst %.c, $(OBJDIR)%.o, $(SRC_FILES))
 
-SRC         = $(addprefix mandatory/, $(SRC_FILES))
-B_SRC       = $(addprefix bonus/, $(B_SRC_FILES))
+# Compilation flags
+# -Wall -Wextra -Werror
+FLAGS = 
 
-PATH_OBJS   = objs
+MINISHELL = minishell
+NAME = $(MINISHELL)
 
-OBJ         = $(patsubst mandatory/%.c, $(PATH_OBJS)/%.o, $(SRC))
-B_OBJ       = $(patsubst bonus/%.c, $(PATH_OBJS)/%.o, $(B_SRC))
+# Rules
+all: $(OBJDIR) $(NAME)
 
-CC          = cc
-FLAGS       = -Wall -Wextra -Werror -fsanitize=thread
+# Create the object directory
+$(OBJDIR):
+	@mkdir -p $(OBJDIR)
 
-RM          = rm -rf
+# Compile .c to .o files
+$(OBJDIR)%.o: %.c
+	@mkdir -p $(dir $@)  # Ensure the directory exists
+	$(CC) $(FLAGS) -c $< -o $@
 
-all:		$(NAME)
-
-$(NAME):	$(LIBFT) $(OBJ)
-			@$(CC) $(FLAGS) $(OBJ) -o $(NAME)
-
-$(PATH_OBJS)/%.o: mandatory/%.c
-			@mkdir -p $(PATH_OBJS)
-			@$(CC) $(FLAGS) -I includes/ -c $< -o $@
-
-$(PATH_OBJS)/%.o: bonus/%.c
-			@mkdir -p $(PATH_OBJS)
-			@$(CC) $(FLAGS) -I includes/ -c $< -o $@
-
-$(B_NAME):	$(B_OBJ)
-			@$(CC) $(FLAGS) $(B_OBJ) -o $(B_NAME)
-
-
-bonus:		$(B_NAME)
+# Build the final executable
+$(NAME): $(OBJS)
+	$(CC) $(OBJS) -o $(NAME) -lreadline
 
 clean:
-			@$(RM) $(PATH_OBJS)
+	rm -rf $(OBJDIR)
 
-fclean:		clean
-			@$(RM) $(NAME) $(B_NAME)
+fclean: clean
+	rm -f $(NAME)
 
-re:			fclean all
+re: fclean all
 
-.PHONY:		all clean fclean re bonus
+.PHONY: all clean fclean re
