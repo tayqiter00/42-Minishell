@@ -12,6 +12,7 @@ SRC_FILES = driver/minishell.c \
             libft/ft_strdup.c \
             libft/ft_substr.c \
             libft/ft_strchr.c \
+            libft/ft_strcmp.c \
             readinput/read_input.c \
             processing/env_expansion/expand_env.c \
             processing/env_expansion/expand_env_utils_1.c \
@@ -20,6 +21,7 @@ SRC_FILES = driver/minishell.c \
             libft/ft_strjoin.c \
             processing/token_sanitization/sanitize_token.c \
             builtins/ft_echo.c \
+            builtins/ft_pwd.c \
             heredoc/handle_heredoc.c \
             exit_status/exit_status.c \
             libft/ft_itoa.c \
@@ -52,7 +54,7 @@ $(OBJDIR):
 
 # Compile .c to .o files
 $(OBJDIR)%.o: %.c
-	@mkdir -p $(dir $@)  # Ensure the directory exists
+	@mkdir -p $(dir $@)  
 	$(CC) $(FLAGS) -c $< -o $@
 
 # Build the final executable

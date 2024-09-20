@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:19:30 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/10 18:10:44 by qtay             ###   ########.fr       */
+/*   Updated: 2024/09/20 07:20:14 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void		dup_expanded_token(char *expanded_env, char *token, char **envp);
 int			ft_pwd(void);
 int			ft_echo(t_tokennode *args);
 int			ft_cd(t_tokennode *args, char **envp);
+int			ft_env(char **envp);
 
 /* ************************************************************************** */
 /*                          SIGNALS AND EXIT STATUSES                         */
