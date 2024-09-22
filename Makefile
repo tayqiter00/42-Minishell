@@ -8,6 +8,7 @@ SRC_FILES = driver/minishell.c \
             checkers/char_check_3.c \
             checkers/char_check_4.c \
             checkers/char_check_5.c \
+            checkers/char_check_6.c \
             libft/ft_strspn.c \
             libft/ft_strlen.c \
             libft/ft_strncmp.c \
@@ -21,6 +22,7 @@ SRC_FILES = driver/minishell.c \
             libft/ft_itoa.c \
             libft/ft_memcpy.c \
             libft/ft_strndup.c \
+            libft/ft_strcspn.c \
             readinput/read_input.c \
             processing/env_expansion/expand_env.c \
             processing/env_expansion/expand_env_utils_1.c \
@@ -31,6 +33,8 @@ SRC_FILES = driver/minishell.c \
             builtins/ft_cd.c \
             builtins/ft_env.c \
             builtins/ft_exit.c \
+            builtins/ft_export_utils_1.c \
+            builtins/ft_export_utils_2.c \
             builtins/ft_export.c \
             heredoc/handle_heredoc.c \
             exit_status/exit_status.c \

@@ -6,7 +6,7 @@
 /*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 02:28:38 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/22 01:04:47 by xquah            ###   ########.fr       */
+/*   Updated: 2024/09/22 15:52:02 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
  * Add back char **envp as an argument once cd, 
  * unset and run execve has been finished
  */
-int run_cmd(t_tokenlist *currcmd, char **envp)
+int run_cmd(t_tokenlist *currcmd, char ***envp)
 {
 	char *cmd;
 	t_tokennode *args;
@@ -50,7 +50,7 @@ int run_cmd(t_tokenlist *currcmd, char **envp)
 	if (!ft_strcmp(cmd, "echo"))
 		return (ft_echo(args));
 	if (!ft_strcmp(cmd, "cd"))
-		return (ft_cd(args, envp));
+		return (ft_cd(args, *envp));
 	if (!ft_strcmp(cmd, "pwd"))
 		return (ft_pwd());
 	if (!ft_strcmp(cmd, "export"))
@@ -60,12 +60,12 @@ int run_cmd(t_tokenlist *currcmd, char **envp)
 	if (!ft_strcmp(cmd, "exit"))
 		return (ft_exit());
 	if (!ft_strcmp(cmd, "env"))
-		return (ft_env(envp));
+		return (ft_env(*envp));
 	// return (run_execve(*envp, currcmd));
 	return (0);
 }
 
-void handle_normcmd(int prev_pipefd[], t_tokenlist **cmdlist, char **envp)
+void handle_normcmd(int prev_pipefd[], t_tokenlist **cmdlist, char ***envp)
 {
 	int				redir_fds[2];
 	int				oristdio[2];
@@ -92,7 +92,7 @@ void handle_normcmd(int prev_pipefd[], t_tokenlist **cmdlist, char **envp)
 	config_signals();
 }
 
-void	handle_pipecmd(int pipefd[], int prev_pipefd[], t_tokenlist **cmdlist, char **envp)
+void	handle_pipecmd(int pipefd[], int prev_pipefd[], t_tokenlist **cmdlist, char ***envp)
 {
 	char	path[100];
 	int		redir_fds[2];
@@ -118,7 +118,7 @@ void	handle_pipecmd(int pipefd[], int prev_pipefd[], t_tokenlist **cmdlist, char
 	config_signals();
 }
 
-void	exec_cmdlist(int prev_pipefd[], t_tokenlist **cmdlist, bool with_pipe, char **envp)
+void	exec_cmdlist(int prev_pipefd[], t_tokenlist **cmdlist, bool with_pipe, char ***envp)
 {
 	int pipefd[2];
 

@@ -2,14 +2,14 @@ TO-DO:
 1.	Handle signals: ctrl-C, ctrl-D, ctrl-\ (functions needed alr written)
 2.	Error handling - especially exit status of child processes (functions needed alr written)
 3.	Pipes and I/O stream redirection (Need 1, 2 and 4)
-4.	Builtins (all done except exit, unset, export)
-5.	Makefile
+4.	Builtins (all done except unset)
 
 COMPLETED:
 1.	Quotes and escapes
 2.	Envn var expansions, including $?
 3.	Read from heredoc and append to tokenlist
-4.	Some builtins: echo, pwd, env, cd (cd is 80% completed)
+4.	Some builtins: echo, pwd, env, cd (cd is 80% completed), exit (need double checking), export
+5.	Makefile
 
 
 IDEA:

@@ -6,7 +6,7 @@
 /*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 01:37:25 by xquah             #+#    #+#             */
-/*   Updated: 2024/09/22 01:45:36 by xquah            ###   ########.fr       */
+/*   Updated: 2024/09/22 14:54:25 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,15 @@ bool	is_asterisk(char c)
 	return (c == '*');
 }
 
-int		is_special_env_name(char c)
+bool	is_valid_env_name(char c)
+{
+	return (is_underscore(c)
+		|| (is_uppercase(c))
+		|| (is_lowercase(c))
+		|| (is_number(c)));
+}
+
+bool	is_special_env_name(char c)
 {
 	return (is_number(c)
 		|| (is_hash(c))

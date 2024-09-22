@@ -6,7 +6,7 @@
 /*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 18:52:16 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/22 01:31:14 by xquah            ###   ########.fr       */
+/*   Updated: 2024/09/22 14:19:47 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int		ft_atoi(const char *nptr);
 void	*ft_calloc(size_t nmemb, size_t size);
 char	*ft_strdup(const char *s);
 char	*ft_strndup(const char *s1, size_t n);
+size_t	ft_strcspn(const char *s, const char *reject);
 
 /* Additional functions */
 char	*ft_substr(char const *s, unsigned int start, size_t len);

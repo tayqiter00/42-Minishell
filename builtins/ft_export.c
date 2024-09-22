@@ -6,7 +6,7 @@
 /*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 15:26:32 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/22 12:44:06 by xquah            ###   ########.fr       */
+/*   Updated: 2024/09/22 17:05:22 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,26 +37,6 @@ void	sort_envp(char **envp)
 		}
 		i++;
 	}
-}
-
-size_t ft_strcspn(const char *s, const char *reject)
-{
-	size_t i;
-	size_t j;
-
-	i = 0;
-	while (s[i] != '\0')
-	{
-		j = 0;
-		while (reject[j] != '\0')
-		{
-			if (s[i] == reject[j])
-				return (i);
-			j++;
-		}
-		i++;
-	}
-	return (i);
 }
 
 void print_export_envp(char **envp)
@@ -96,11 +76,12 @@ void print_export_envp(char **envp)
  * If a variable name is followed by =value, the value of the v
 */
 
-int	ft_export(t_tokennode *args, char **envp)
+int	ft_export(t_tokennode *args, char ***envp)
 {
 	char **d_envp;
-
-	d_envp = dup_envp(envp);
+	
+	insert_valid_args(envp, args);
+	d_envp = dup_envp(*envp);
 	sort_envp(d_envp);
 	if (args == NULL)
 		print_export_envp(d_envp);

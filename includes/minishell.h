@@ -6,7 +6,7 @@
 /*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:19:30 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/22 01:55:13 by xquah            ###   ########.fr       */
+/*   Updated: 2024/09/22 17:13:47 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,15 @@ int			ft_echo(t_tokennode *args);
 int			ft_cd(t_tokennode *args, char **envp);
 int			ft_env(char **envp);
 int			ft_exit();
-int			ft_export(t_tokennode *args, char **envp);
-int			is_special_env_name(char c);
+int			ft_export(t_tokennode *args, char ***envp);
+
+/* ************************************************************************** */
+/*                            BUILTINS UTILS                                  */
+/* ************************************************************************** */
+
+void		insert_valid_args(char ***envp, t_tokennode *args);
+bool		is_not_duplicate(char **envp, char *args);
+bool		entry_has_valid_name(char *args);
 
 /* ************************************************************************** */
 /*                          SIGNALS AND EXIT STATUSES                         */
@@ -86,8 +93,8 @@ void		ignore_signals(void);
 /*                                 EXECUTION                                  */
 /* ************************************************************************** */
 pid_t		create_fork(void);
-void		eval_tokenlist(t_tokenlist *tokenlist, int heredoc_count, char **envp);
-void		exec_cmdlist(int prev_pipefd[], t_tokenlist **cmdlist, bool with_pipe, char **envp);
+void		eval_tokenlist(t_tokenlist *tokenlist, int heredoc_count, char ***envp);
+void		exec_cmdlist(int prev_pipefd[], t_tokenlist **cmdlist, bool with_pipe, char ***envp);
 
 /* ************************************************************************** */
 /*                              I/O REDIRECTIONS                              */
@@ -125,5 +132,10 @@ bool	is_ampersand(char c);
 bool	is_exclamation(char c);
 bool	is_question_mark(char c);
 bool	is_builtin(t_tokenlist *cmdlist);
+bool	is_valid_env_name(char c);
+bool	is_equal(char c);
+bool	is_uppercase(char c);
+bool	is_lowercase(char c);
+bool	is_special_env_name(char c);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 05:55:09 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/21 22:24:22 by xquah            ###   ########.fr       */
+/*   Updated: 2024/09/22 15:49:55 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	wait_for_child(void)
 /**
  * how to make sure it's not "|" 
  */
-void	eval_tokenlist(t_tokenlist *tokenlist, int heredoc_count, char **envp)
+void	eval_tokenlist(t_tokenlist *tokenlist, int heredoc_count, char ***envp)
 {
 	t_tokenlist	*cmdlist;
 	int			prev_pipefd[2];
