@@ -6,7 +6,7 @@
 /*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:19:30 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/20 07:20:14 by xquah            ###   ########.fr       */
+/*   Updated: 2024/09/22 01:55:13 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 /* ************************************************************************** */
 char    	*read_inputline(void);
 char		**dup_envp(char **envp);
+int			count_num_env(char **envp);
 void		free_double_arr(char **arr);
 void    	set_in_quote(int c, bool *in_quote, int *quote_type);
 
@@ -68,6 +69,9 @@ int			ft_pwd(void);
 int			ft_echo(t_tokennode *args);
 int			ft_cd(t_tokennode *args, char **envp);
 int			ft_env(char **envp);
+int			ft_exit();
+int			ft_export(t_tokennode *args, char **envp);
+int			is_special_env_name(char c);
 
 /* ************************************************************************** */
 /*                          SIGNALS AND EXIT STATUSES                         */
@@ -75,13 +79,15 @@ int			ft_env(char **envp);
 void		config_signals(void);
 int			get_exit_status(void);
 void		set_exit_status(int status);
+void		default_signals(void);
+void		ignore_signals(void);
 
 /* ************************************************************************** */
 /*                                 EXECUTION                                  */
 /* ************************************************************************** */
 pid_t		create_fork(void);
-void		eval_tokenlist(t_tokenlist *tokenlist, int heredoc_count);
-void		exec_cmdlist(int prev_pipefd[], t_tokenlist **cmdlist, bool with_pipe);
+void		eval_tokenlist(t_tokenlist *tokenlist, int heredoc_count, char **envp);
+void		exec_cmdlist(int prev_pipefd[], t_tokenlist **cmdlist, bool with_pipe, char **envp);
 
 /* ************************************************************************** */
 /*                              I/O REDIRECTIONS                              */
@@ -115,6 +121,9 @@ bool    is_infile(char *token);
 bool    is_outfile(char *token);
 bool    is_heredoc(char *token);
 bool	is_metachar(char *token);
+bool	is_ampersand(char c);
+bool	is_exclamation(char c);
+bool	is_question_mark(char c);
 bool	is_builtin(t_tokenlist *cmdlist);
 
 #endif

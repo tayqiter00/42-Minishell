@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/02 15:18:23 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/21 23:35:01 by xquah            ###   ########.fr       */
+/*   Created: 2024/09/22 01:26:03 by xquah             #+#    #+#             */
+/*   Updated: 2024/09/22 12:36:45 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-/**
- * Might wanna see if we wanna handle $? here
- * 
- * Check that [char **envp] gives the same thing as env
- */
-int	ft_env(char **envp)
+char	*ft_strndup(const char *s1, size_t n)
 {
-	while (*envp)
-	{
-		printf("%s\n", *envp);
-		*envp++;
-	}
-	return (0);
+	char	*s2;
+
+	s2 = (char *) malloc(n + 1);
+	if (!s2)
+		return (0);
+	ft_memcpy(s2, s1, n);
+	s2[n] = '\0';
+	return (s2);
 }

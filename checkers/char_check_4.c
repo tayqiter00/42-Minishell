@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   char_check_4.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:18:22 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/08 14:33:22 by qtay             ###   ########.fr       */
+/*   Updated: 2024/09/22 01:59:48 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+bool	is_exclamation(char c)
+{
+	return (c == '!');
+}
+
+bool	is_ampersand(char c)
+{
+	return (c == '@');
+}
 
 bool    is_append(char *token)
 {

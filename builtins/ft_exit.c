@@ -1,28 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/02 15:18:23 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/21 23:35:01 by xquah            ###   ########.fr       */
+/*   Created: 2024/09/21 23:36:50 by xquah             #+#    #+#             */
+/*   Updated: 2024/09/22 11:50:39 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 /**
- * Might wanna see if we wanna handle $? here
- * 
- * Check that [char **envp] gives the same thing as env
- */
-int	ft_env(char **envp)
+ * added ft_exit(), in case more things needs to be checked in the function other than just exit()
+ *
+*/
+int	ft_exit()
 {
-	while (*envp)
-	{
-		printf("%s\n", *envp);
-		*envp++;
-	}
-	return (0);
+	exit(0);
 }

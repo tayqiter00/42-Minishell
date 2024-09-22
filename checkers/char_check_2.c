@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   char_check_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:18:09 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/06 06:25:59 by qtay             ###   ########.fr       */
+/*   Updated: 2024/09/22 01:44:25 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,9 @@ bool    is_quote(int c)
 bool    is_infile(char *token)
 {
 	return (!ft_strncmp(token, "<", 1));	
+}
+
+bool	is_question_mark(char c)
+{
+	return (c == '?');
 }

@@ -1,28 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   char_check_5.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/02 15:18:23 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/21 23:35:01 by xquah            ###   ########.fr       */
+/*   Created: 2024/09/22 01:37:25 by xquah             #+#    #+#             */
+/*   Updated: 2024/09/22 01:45:36 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-/**
- * Might wanna see if we wanna handle $? here
- * 
- * Check that [char **envp] gives the same thing as env
- */
-int	ft_env(char **envp)
+bool	is_number(char c)
 {
-	while (*envp)
-	{
-		printf("%s\n", *envp);
-		*envp++;
-	}
-	return (0);
+	return (c >= '0' && c <= '9');
+}
+
+bool	is_hash(char c)
+{
+	return (c == '#');
+}
+
+bool	is_asterisk(char c)
+{
+	return (c == '*');
+}
+
+int		is_special_env_name(char c)
+{
+	return (is_number(c)
+		|| (is_hash(c))
+		|| (is_asterisk(c))
+		|| (is_ampersand(c))
+		|| (is_dollarsign(c))
+		|| (is_exclamation(c))
+		|| (is_question_mark(c)));
 }
