@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:19:30 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/30 23:40:48 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/01 00:37:35 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void		unlink_heredocs(int heredoc_count);
 char		*expand_env(char *token, char **envp);
 int			count_heredocs(t_tokenlist *tokenlist);
 int			eval_heredocs(t_tokenlist **tokenlist);
-char		*create_heredoc(char *delim, char **envp);
+char		*create_heredoc(char *delim, char **envp, bool metachar);
 int			count_expanded_len(char *token, char **envp);
 void		dup_sanitized_token(char *result, char *token);
 void		dup_expanded_token(char *expanded_env, char *token, char **envp);

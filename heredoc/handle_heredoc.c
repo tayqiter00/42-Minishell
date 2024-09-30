@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 15:51:05 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/01 00:23:15 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/01 00:54:25 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,13 +129,19 @@ void	read_terminal(char *delim, char **envp, int heredoc_fd)
  * 
  * cat << <</</> will throw syntax error
  */
-char	*create_heredoc(char *delim, char **envp)
+char	*create_heredoc(char *delim, char **envp, bool metachar)
 {
 	char		*num;
 	static int	count = 0;
 	int			heredoc_fd;
 	char		*path;
 	
+	if (metachar)
+	{
+		free(delim);
+		dprintf(STDERR_FILENO, "syntax error near unexpected token\n"); // ft_dprintf
+		return (NULL);
+	}
 	num = ft_itoa(count);
 	path = ft_strjoin("./heredoc/minishell_temp_", num);
 	free(num);

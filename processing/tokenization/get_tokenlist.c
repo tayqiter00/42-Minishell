@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:59:22 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/09 14:51:36 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/01 00:48:43 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ t_tokennode *create_tokennode(char *token, bool metachar)
 {
     t_tokennode *new_tokennode;
 
+	if (!token)
+		return (NULL);
     new_tokennode = malloc(sizeof(t_tokennode));
     if (new_tokennode == NULL)
 	{
@@ -97,7 +99,12 @@ t_tokenlist	*get_tokenlist(char *input, char **envp)
 			heredoc_file = true;
 		else if (heredoc_file)
 		{
-			token = create_heredoc(token, envp); // name of heredoc file returned
+			token = create_heredoc(token, envp, metachar); // name of heredoc file returned
+			if (!token)
+			{
+				free_tokenlist(tokenlist);
+				return (NULL);
+			}
 			heredoc_file = false;
 		}
 		else
