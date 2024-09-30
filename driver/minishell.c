@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 13:43:41 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/22 15:50:37 by xquah            ###   ########.fr       */
+/*   Updated: 2024/09/30 23:06:46 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	free_tokenlist(t_tokenlist *tokenlist)
 
 /**
  * Note: readline() will cause memory leak but it's fine.
+ * Valgrind shows this leak when i trigger an 'unclosed quote' syntax error
  */
 int	main(int ac, char **av, char **envp)
 {
