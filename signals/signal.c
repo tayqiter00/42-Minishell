@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:09:39 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/08 18:07:10 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/01 00:29:23 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,11 @@ void	ignore_signals(void)
 
 static void	re_prompt(int signum)
 {
-	if (signum = SIGINT)
-	{
+		set_exit_status(130);
 		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-	}
 }
 
 void	config_signals(void)
