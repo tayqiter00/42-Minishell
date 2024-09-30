@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:18:22 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/30 22:58:33 by qtay             ###   ########.fr       */
+/*   Updated: 2024/09/30 23:01:57 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ bool	is_exclamation(char c)
 
 bool	is_ampersand(char c)
 {
-	return (c == '@');
+	return (c == '&');
 }
 
 bool    is_append(char *token)
