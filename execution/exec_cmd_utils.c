@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 23:50:40 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/09 16:05:40 by qtay             ###   ########.fr       */
+/*   Updated: 2024/09/30 23:27:06 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,19 @@ int	get_infilefd(t_tokenlist *redirlist)
 		{
 			if (infilefd != 0)
 				close(infilefd);
+			if (!node->next)
+			{
+				dprintf(STDERR_FILENO, "syntax error near unexpected token 'newline'\n");
+				set_exit_status(2);
+				return (-2);
+			}
 			filename = node->next->token;
 			infilefd = open(filename, O_RDONLY, 0644);
 			if (infilefd == -1)
 			{
 				dprintf(STDERR_FILENO, "%s: No such file or directory\n", filename); // ft
-				break ;
+				set_exit_status(1);
+				return (-1);
 			}
 		}
 		node = node->next;
@@ -88,6 +95,12 @@ int	get_outfilefd(t_tokenlist *redirlist)
 		{
 			if (outfilefd != 0)
 				close(outfilefd);
+			if (!node->next)
+			{
+				dprintf(STDERR_FILENO, "syntax error near unexpected token 'newline'\n");
+				set_exit_status(2);
+				return (-2);
+			}
 			filename = node->next->token;
 			if (is_outfile(node->token))
 				outfilefd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -96,7 +109,8 @@ int	get_outfilefd(t_tokenlist *redirlist)
 			if (outfilefd == -1)
 			{
 				dprintf(STDERR_FILENO, "%s: Is a directory\n", filename); // ft
-				break ;
+				set_exit_status(1);
+				return (-1);
 			}
 		}
 		node = node->next;
@@ -110,18 +124,18 @@ int	get_redirfds(int redir_fds[], t_tokenlist **cmdlist)
 
 	redirlist = extract_redirs(cmdlist);
 	redir_fds[0] = get_infilefd(redirlist); // redir_fds[INFILE]
-	if (redir_fds[0] == -1)
+	if (redir_fds[0] < 0)
 	{
-		set_exit_status(1);
+		set_exit_status(-1 * redir_fds[0]);
 		free_tokenlist(redirlist);
-		return (1); // 
+		return (-1); // 
 	}
 	redir_fds[1] = get_outfilefd(redirlist); // redir_fds[OUTFILE]
-	if (redir_fds[1] == -1)
+	if (redir_fds[1] < 0)
 	{
-		set_exit_status(1);
+		set_exit_status(-1 * redir_fds[1]);
 		free_tokenlist(redirlist);
-		return (1);
+		return (-1);
 	}
 	free_tokenlist(redirlist);
 	return (0);

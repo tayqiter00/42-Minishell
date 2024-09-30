@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:19:30 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/22 17:13:47 by xquah            ###   ########.fr       */
+/*   Updated: 2024/09/30 23:40:48 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void		ignore_signals(void);
 /* ************************************************************************** */
 pid_t		create_fork(void);
 void		eval_tokenlist(t_tokenlist *tokenlist, int heredoc_count, char ***envp);
-void		exec_cmdlist(int prev_pipefd[], t_tokenlist **cmdlist, bool with_pipe, char ***envp);
+int			exec_cmdlist(int prev_pipefd[], t_tokenlist **cmdlist, bool with_pipe, char ***envp);
 
 /* ************************************************************************** */
 /*                              I/O REDIRECTIONS                              */

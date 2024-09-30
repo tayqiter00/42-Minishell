@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 02:28:38 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/22 15:52:02 by xquah            ###   ########.fr       */
+/*   Updated: 2024/09/30 23:36:15 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int run_cmd(t_tokenlist *currcmd, char ***envp)
 	return (0);
 }
 
-void handle_normcmd(int prev_pipefd[], t_tokenlist **cmdlist, char ***envp)
+int handle_normcmd(int prev_pipefd[], t_tokenlist **cmdlist, char ***envp)
 {
 	int				redir_fds[2];
 	int				oristdio[2];
@@ -73,7 +73,7 @@ void handle_normcmd(int prev_pipefd[], t_tokenlist **cmdlist, char ***envp)
 
 	store_oristdio(oristdio);
 	if (get_redirfds(redir_fds, cmdlist) == -1)
-		return ;
+		return (1);
 	set_normcmd_redir(redir_fds[0], redir_fds[1]);
 	if (prev_pipefd[0] == 0 && is_builtin(*cmdlist))
 		set_exit_status(run_cmd(*cmdlist, envp));
@@ -90,16 +90,17 @@ void handle_normcmd(int prev_pipefd[], t_tokenlist **cmdlist, char ***envp)
 	}
 	restore_oristdio(oristdio);
 	config_signals();
+	return (0);
 }
 
-void	handle_pipecmd(int pipefd[], int prev_pipefd[], t_tokenlist **cmdlist, char ***envp)
+int	handle_pipecmd(int pipefd[], int prev_pipefd[], t_tokenlist **cmdlist, char ***envp)
 {
 	char	path[100];
 	int		redir_fds[2];
 	// int	origio[2];
 
-	if (get_redirfds(redir_fds, cmdlist) == 1)
-		return ;
+	if (get_redirfds(redir_fds, cmdlist) == -1)
+		return (1);
 	// init_origio(origio);
 	if (create_fork() == 0) 
 	{
@@ -118,7 +119,7 @@ void	handle_pipecmd(int pipefd[], int prev_pipefd[], t_tokenlist **cmdlist, char
 	config_signals();
 }
 
-void	exec_cmdlist(int prev_pipefd[], t_tokenlist **cmdlist, bool with_pipe, char ***envp)
+int	exec_cmdlist(int prev_pipefd[], t_tokenlist **cmdlist, bool with_pipe, char ***envp)
 {
 	int pipefd[2];
 
@@ -129,8 +130,8 @@ void	exec_cmdlist(int prev_pipefd[], t_tokenlist **cmdlist, bool with_pipe, char
 			dprintf(STDERR_FILENO, "pipe failed for pipefd\n");
 			exit(1);
 		}
-		handle_pipecmd(pipefd, prev_pipefd, cmdlist, envp);
+		return (handle_pipecmd(pipefd, prev_pipefd, cmdlist, envp));
 	}
 	else
-		handle_normcmd(prev_pipefd, cmdlist, envp);
+		return (handle_normcmd(prev_pipefd, cmdlist, envp));
 }
