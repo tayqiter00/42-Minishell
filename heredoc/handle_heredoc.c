@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 15:51:05 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/10 18:11:31 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/01 00:23:15 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ int	eval_heredocs(t_tokenlist **tokenlist)
 	int			count;
 	int			heredocs_count;
 	t_tokenlist	*result;
-	
+
+	if (!tokenlist || !(*tokenlist))
+		return (0);
 	count = 1;
 	heredocs_count = count_heredocs(*tokenlist);
 	if (heredocs_count == 0 || heredocs_count == 1)
@@ -72,9 +74,9 @@ void	unlink_heredocs(int heredoc_count)
 		if (stat(heredoc_path, &st) == 0)
 		{
 			unlink(heredoc_path);
-			free(heredoc_path);
 			count++;
 		}
+		free(heredoc_path);
 	}
 }
 
