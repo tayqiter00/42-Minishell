@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   evaluate_tokenlist.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 05:55:09 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/22 15:49:55 by xquah            ###   ########.fr       */
+/*   Updated: 2024/09/30 23:13:23 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ void	eval_tokenlist(t_tokenlist *tokenlist, int heredoc_count, char ***envp)
 	while (tokenlist && tokenlist->head)
 	{
 		cmdlist = create_tokenlist();
-		while (tokenlist->head && !is_pipe(*(tokenlist->head->token)))
+		while (tokenlist->head && (!is_pipe(*(tokenlist->head->token)) || 
+			(is_pipe(*(tokenlist->head->token)) && !tokenlist->head->is_meta_char)))
 			link_tokenlist(pop_tokennode(tokenlist), cmdlist);
 		exec_cmdlist(prev_pipefd, &cmdlist, tokenlist->head, envp);
 		if (tokenlist->head)
