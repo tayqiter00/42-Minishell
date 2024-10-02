@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 02:28:38 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/30 23:36:15 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/02 15:54:29 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ int run_cmd(t_tokenlist *currcmd, char ***envp)
 		return (ft_pwd());
 	if (!ft_strcmp(cmd, "export"))
 		return (ft_export(args, envp));
-	// if (!ft_strcmp(cmd, "unset"))
-	// 	return (ft_unset(*envp, args));
+	if (!ft_strcmp(cmd, "unset"))
+		return (ft_unset(*envp, args));
 	if (!ft_strcmp(cmd, "exit"))
 		return (ft_exit());
 	if (!ft_strcmp(cmd, "env"))

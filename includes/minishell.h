@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:19:30 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/01 00:37:35 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/02 15:56:02 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int			ft_cd(t_tokennode *args, char **envp);
 int			ft_env(char **envp);
 int			ft_exit();
 int			ft_export(t_tokennode *args, char ***envp);
+int			ft_unset(char **envp, t_tokennode *args);
 
 /* ************************************************************************** */
 /*                            BUILTINS UTILS                                  */

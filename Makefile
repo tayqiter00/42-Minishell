@@ -23,6 +23,7 @@ SRC_FILES = driver/minishell.c \
             libft/ft_memcpy.c \
             libft/ft_strndup.c \
             libft/ft_strcspn.c \
+            libft/ft_strlcpy.c \
             readinput/read_input.c \
             processing/env_expansion/expand_env.c \
             processing/env_expansion/expand_env_utils_1.c \
@@ -36,6 +37,7 @@ SRC_FILES = driver/minishell.c \
             builtins/ft_export_utils_1.c \
             builtins/ft_export_utils_2.c \
             builtins/ft_export.c \
+            builtins/ft_unset.c \
             heredoc/handle_heredoc.c \
             exit_status/exit_status.c \
             driver/envp.c \
