@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 18:26:00 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/03 00:46:29 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/05 02:02:02 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ char	*get_env_start(char *token)
 	}
 	return (token);
 }
+
 
 /**
  * Returns an empty string if no unescaped '$' sign is found

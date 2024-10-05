@@ -6,26 +6,11 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 00:43:42 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/04 13:54:55 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/05 22:59:52 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	dup_leading_chars(char *expanded_env, char *token, char *env)
-{
-	int	init_len;
-
-	init_len = ft_strlen(expanded_env);
-	while (strstr(token, env))
-	{
-		if (*token == '$') // better way to do this?
-			break ;
-		expanded_env[init_len] = *token;
-		init_len++;
-		token++;
-	}
-}
 
 /**
  * Just added $?
@@ -53,21 +38,38 @@ void	dup_env_value(char *expanded_env, char *env, char **envp)
 		*envp++;
 	}
 	free(env_name);
-	strcat(expanded_env, env); // define ft_strcat()
+	strcat(expanded_env, ""); // define ft_strcat()
 }
 
 void	dup_expanded_token(char *expanded_env, char *token, char **envp)
 {
 	char	*env;
-
+	bool	in_quote;
+	int		quote_type;
+	
+	in_quote = false;
+	quote_type = '\0';
 	env = get_next_env(token);
-	while (env)
+	while (*token)
 	{
-		dup_leading_chars(expanded_env, token, env);
-		dup_env_value(expanded_env, env, envp);
-		token += count_leading_chars(token, env) + ft_strlen(env);
-		free(env);
-		env = get_next_env(NULL);
+		if ((!is_dollarsign(*token) && !is_quote(*token)) || (is_dollarsign(*token) && is_singlequote(quote_type)))
+			;
+		else if (is_dollarsign(*token))
+		{
+			if (env)
+			{
+				dup_env_value(expanded_env, env, envp);
+				token += ft_strlen(env);
+				free(env);
+				env = get_next_env(NULL);
+			}
+			else
+				token++;
+			continue ;
+		}
+        else if (is_quote(*token))
+            set_in_quote(*token, &in_quote, &quote_type);
+		expanded_env[ft_strlen(expanded_env)] = *token;
+		token++;
 	}
-	free(env);
 }

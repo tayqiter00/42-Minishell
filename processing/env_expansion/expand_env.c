@@ -6,16 +6,11 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 14:15:10 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/09 14:52:12 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/05 22:55:23 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	count_leading_chars(char *token, char *env)
-{
-	return (strstr(token, env) - token); // ft_strstr()
-}
 
 /**
  * Just added $?
@@ -43,7 +38,8 @@ int	count_env_len(char *env, char **envp)
 		}
 		*envp++;
 	}
-	return (ft_strlen(env));
+	free(env_name);
+	return (1);
 }
 
 /**
@@ -53,19 +49,34 @@ int		count_expanded_len(char *token, char **envp)
 {
 	int		len;
 	char	*env;
-
+	bool	in_quote;
+	int		quote_type;
+	
 	len = 0;
+	in_quote = false;
+	quote_type = '\0';
 	env = get_next_env(token);
-	while (env)
+	while (*token)
 	{
-		len += count_leading_chars(token, env);
-		len += count_env_len(env, envp); // alr freed
-		token += count_leading_chars(token, env) + ft_strlen(env); // consider declaring new var
-		free(env);
-		env = get_next_env(NULL);
+		if ((!is_dollarsign(*token) && !is_quote(*token)) || (is_dollarsign(*token) && is_singlequote(quote_type)))
+			;
+		else if (is_dollarsign(*token))
+		{
+			if (env)
+			{
+				len += count_env_len(env, envp);
+				token += ft_strlen(env);
+				free(env);
+				env = get_next_env(NULL);
+				continue ;
+			}
+		}
+        else if (is_quote(*token))
+            set_in_quote(*token, &in_quote, &quote_type);
+		len++;
+        token++;
 	}
-	// free(env); // check if needed
-	return (len + ft_strlen(token));
+	return (len);
 }
 
 char	*expand_env(char *token, char **envp)
@@ -81,13 +92,9 @@ char	*expand_env(char *token, char **envp)
 		exit(MALLOC_ERROR);
 	}
 	dup_expanded_token(result, token, envp);
-	if (*result)
-	{
-		free(token);
-		return (result);
-	}
-	free(result);
-	return (token);
+	free(token);
+	return (result);
+
 }
 // int	main(int ac, char **av, char **envp)
 // {
