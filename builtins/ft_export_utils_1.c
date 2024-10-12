@@ -6,7 +6,7 @@
 /*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 13:19:14 by xquah             #+#    #+#             */
-/*   Updated: 2024/09/22 17:12:09 by xquah            ###   ########.fr       */
+/*   Updated: 2024/10/12 20:25:32 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ void add_valid_args(char **envp, t_tokennode *args)
 			else
 				handle_duplicate(envp, current_arg->token);
 		}
+		else
+			printf("'%s' is not a valid identifier\n", args->token);
 		current_arg = current_arg->next;
 	}
 	envp[envp_count] = NULL;
@@ -105,7 +107,6 @@ void	insert_valid_args(char ***envp, t_tokennode *args)
 	old_size = sizeof(char *) * (envp_count + 1);
 	new_size = sizeof(char *) * (envp_count + valid_args_count + 1);
 	*envp = realloc_envp(*envp, new_size);
-	//envp = ft_realloc(*envp, old_size, new_size);
 	if (!*envp)
 	{
 		printf("malloc failed for *envp\n");
