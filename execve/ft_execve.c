@@ -1,30 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_execve.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/02 15:18:23 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/08 23:08:36 by xquah            ###   ########.fr       */
+/*   Created: 2024/10/04 17:00:46 by xquah             #+#    #+#             */
+/*   Updated: 2024/10/05 12:04:42 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-/**
- * Might wanna see if we wanna handle $? here
- * 
- * Check that [char **envp] gives the same thing as env
- * line 25 - checks that the current row isn't a placehodler for a variable that is freed (null character '\0') 
- */
-int	ft_env(char **envp)
+int ft_execve(char **envp, t_tokennode *cmd)
 {
-	while (*envp)
-	{
-		if (**envp != '\0')
-			printf("%s\n", *envp);
-		*envp++;
-	}
-	return (0);
+	char	**args;
+	char	*bin;
+
+	
 }

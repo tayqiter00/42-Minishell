@@ -6,7 +6,7 @@
 /*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 15:44:45 by xquah             #+#    #+#             */
-/*   Updated: 2024/10/02 17:01:23 by xquah            ###   ########.fr       */
+/*   Updated: 2024/10/08 23:29:50 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ static char	*realloc_entry(char *entry)
 	return temp;
 }
 
+//passed each line of the envp
+//loop through args and check if the current line of envp is the unset args
+//if yes
 static char *unset_entry(char *entry, t_tokennode *args)
 {
 	int			env_name_len;
@@ -35,7 +38,7 @@ static char *unset_entry(char *entry, t_tokennode *args)
 	{
 		if (is_special_env_name(*entry))
 			return (entry);
-		if (!ft_strncmp(entry, args->token, env_name_len))
+		if (!ft_strncmp(entry, current_arg->token, env_name_len))
 		{
 			entry = realloc_entry(entry);
 			if (!entry)
