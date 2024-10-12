@@ -6,7 +6,7 @@
 /*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:19:30 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/02 15:56:02 by xquah            ###   ########.fr       */
+/*   Updated: 2024/10/06 20:10:22 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,11 @@ int			ft_unset(char **envp, t_tokennode *args);
 void		insert_valid_args(char ***envp, t_tokennode *args);
 bool		is_not_duplicate(char **envp, char *args);
 bool		entry_has_valid_name(char *args);
+bool		contain_only_digits(char *first_arg);
+int			normalize_exit_code(char *first_arg);
+void		handle_numeric_exit(char *first_arg, char *dup_subtoken);
+void		handle_non_numeric_exit(char *dup_subtoken);
+
 
 /* ************************************************************************** */
 /*                          SIGNALS AND EXIT STATUSES                         */
@@ -138,5 +143,6 @@ bool	is_equal(char c);
 bool	is_uppercase(char c);
 bool	is_lowercase(char c);
 bool	is_special_env_name(char c);
+bool	is_sign(char c);
 
 #endif

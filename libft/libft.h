@@ -6,7 +6,7 @@
 /*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 18:52:16 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/22 14:19:47 by xquah            ###   ########.fr       */
+/*   Updated: 2024/10/06 19:51:13 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	*ft_calloc(size_t nmemb, size_t size);
 char	*ft_strdup(const char *s);
 char	*ft_strndup(const char *s1, size_t n);
 size_t	ft_strcspn(const char *s, const char *reject);
+char	*ft_strtok(char *str, char sepa);
 
 /* Additional functions */
 char	*ft_substr(char const *s, unsigned int start, size_t len);
@@ -64,8 +65,8 @@ void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 int		ft_strcmp(char *s1, char *s2);
 
-	/* Bonus functions */
-	t_list *ft_lstnew(void *content);
+/* Bonus functions */
+t_list *ft_lstnew(void *content);
 t_list	*ft_lstlast(t_list *lst);
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 void	ft_lstadd_front(t_list **alst, t_list *new);

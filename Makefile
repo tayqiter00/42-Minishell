@@ -24,6 +24,8 @@ SRC_FILES = driver/minishell.c \
             libft/ft_strndup.c \
             libft/ft_strcspn.c \
             libft/ft_strlcpy.c \
+            libft/ft_strtok.c \
+            libft/ft_atoi.c \
             readinput/read_input.c \
             processing/env_expansion/expand_env.c \
             processing/env_expansion/expand_env_utils_1.c \
@@ -33,6 +35,7 @@ SRC_FILES = driver/minishell.c \
             builtins/ft_pwd.c \
             builtins/ft_cd.c \
             builtins/ft_env.c \
+            builtins/ft_exit_utils.c \
             builtins/ft_exit.c \
             builtins/ft_export_utils_1.c \
             builtins/ft_export_utils_2.c \

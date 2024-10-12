@@ -1,33 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   char_check_6.c                                     :+:      :+:    :+:   */
+/*   ft_strtok.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/22 14:14:40 by xquah             #+#    #+#             */
-/*   Updated: 2024/10/06 20:09:52 by xquah            ###   ########.fr       */
+/*   Created: 2024/10/06 19:50:14 by xquah             #+#    #+#             */
+/*   Updated: 2024/10/06 19:50:21 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-bool	is_equal(char c)
+char	*ft_strtok(char *str, char sepa)
 {
-	return (c == '=');
-}
+	static char	*stock = NULL;
+	char		*ptr;
+	int			i;
 
-bool	is_uppercase(char c)
-{
-	return (c >= 'A' && c <= 'Z');
-}
-
-bool	is_lowercase(char c)
-{
-	return (c >= 'a' && c <= 'z');
-}
-
-bool is_sign(char c)
-{
-	return (c == '+' || c == '-');
+	i = 0;
+	ptr = NULL;
+	if (str != NULL)
+		stock = ft_strdup(str);
+	while (*stock != '\0')
+	{
+		if (i == 0 && *stock != sepa)
+		{
+			i = 1;
+			ptr = stock;
+		}
+		else if (i == 1 && *stock == sepa)
+		{
+			*stock = '\0';
+			stock += 1;
+			break ;
+		}
+		stock++;
+	}
+	return (ptr);
 }
