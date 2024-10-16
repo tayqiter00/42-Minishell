@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   char_check_4.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:18:22 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/30 23:01:57 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/16 17:42:38 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ bool	is_ampersand(char c)
 	return (c == '&');
 }
 
-bool    is_append(char *token)
+bool	is_append(char *token)
 {
-	return (!ft_strncmp(token, ">>", ft_strlen(token)));	
+	return (!ft_strncmp(token, ">>", ft_strlen(token)));
 }
 
-bool    is_outfile(char *token)
+bool	is_outfile(char *token)
 {
-	return (!ft_strncmp(token, ">", ft_strlen(token)));	
+	return (!ft_strncmp(token, ">", ft_strlen(token)));
 }
 
 bool	is_builtin(t_tokenlist *cmdlist)

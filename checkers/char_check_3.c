@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   char_check_3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:18:14 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/06 06:07:28 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/16 17:44:17 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,6 @@ bool    is_pipe(int c)
     return (c == '|');
 }
 
-/**
- * Prob only need space, \t and \n
- */
 bool    is_blank(int c)
 {
     return (c == ' '
