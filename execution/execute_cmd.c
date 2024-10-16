@@ -6,7 +6,7 @@
 /*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 02:28:38 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/06 20:15:26 by xquah            ###   ########.fr       */
+/*   Updated: 2024/10/16 17:24:24 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ int run_cmd(t_tokenlist *currcmd, char ***envp)
 		return (ft_exit(args));
 	if (!ft_strcmp(cmd, "env"))
 		return (ft_env(*envp));
-	// return (run_execve(*envp, currcmd));
-	return (0);
+	return (ft_execve(*envp, currcmd));
+	//return (0);
 }
 
 int handle_normcmd(int prev_pipefd[], t_tokenlist **cmdlist, char ***envp)

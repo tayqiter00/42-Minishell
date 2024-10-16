@@ -6,7 +6,7 @@
 /*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:19:30 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/06 20:10:22 by xquah            ###   ########.fr       */
+/*   Updated: 2024/10/16 17:36:01 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "token.h"
 # include "sys_headers.h"
+# include <dirent.h>
 # include "../libft/libft.h"
 
 # define R_END 0
@@ -72,6 +73,11 @@ int			ft_env(char **envp);
 int			ft_exit();
 int			ft_export(t_tokennode *args, char ***envp);
 int			ft_unset(char **envp, t_tokennode *args);
+
+/* ************************************************************************** */
+/*                                  EXECVE                                    */
+/* ************************************************************************** */
+int			ft_execve(char **envp, t_tokenlist *cmd);
 
 /* ************************************************************************** */
 /*                            BUILTINS UTILS                                  */
@@ -144,5 +150,7 @@ bool	is_uppercase(char c);
 bool	is_lowercase(char c);
 bool	is_special_env_name(char c);
 bool	is_sign(char c);
+bool	is_invalid_filename(char *bin);
+bool	has_alpha(char *str);
 
 #endif

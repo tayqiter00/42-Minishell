@@ -9,6 +9,7 @@ SRC_FILES = driver/minishell.c \
             checkers/char_check_4.c \
             checkers/char_check_5.c \
             checkers/char_check_6.c \
+            checkers/char_check_7.c \
             libft/ft_strspn.c \
             libft/ft_strlen.c \
             libft/ft_strncmp.c \
@@ -26,6 +27,8 @@ SRC_FILES = driver/minishell.c \
             libft/ft_strlcpy.c \
             libft/ft_strtok.c \
             libft/ft_atoi.c \
+            libft/ft_isalpha.c \
+            libft/ft_strlcat.c \
             readinput/read_input.c \
             processing/env_expansion/expand_env.c \
             processing/env_expansion/expand_env_utils_1.c \
@@ -50,6 +53,7 @@ SRC_FILES = driver/minishell.c \
             execution/exec_cmd_utils.c \
             execution/exec_cmd_utils2.c \
             execution/exec_cmd_utils3.c \
+            execve/ft_execve.c
 
 # Define object files path
 OBJS = $(patsubst %.c, $(OBJDIR)%.o, $(SRC_FILES))
