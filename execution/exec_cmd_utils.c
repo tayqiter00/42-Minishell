@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 23:50:40 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/30 23:27:06 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/24 12:18:52 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,75 +47,49 @@ t_tokenlist	*extract_redirs(t_tokenlist **cmdlist)
 	*cmdlist = cleaned_cmdlist;
 	return (redirlist);
 }
-int	get_infilefd(t_tokenlist *redirlist)
-{
-	t_tokennode	*node;
-	int			infilefd;
-	char		*filename;
 
-	node = redirlist->head;
-	infilefd = 0;
-	while (node)
-	{
-		if (is_heredoc(node->token) || is_infile(node->token))
-		{
-			if (infilefd != 0)
-				close(infilefd);
-			if (!node->next)
-			{
-				dprintf(STDERR_FILENO, "syntax error near unexpected token 'newline'\n");
-				set_exit_status(2);
-				return (-2);
-			}
-			filename = node->next->token;
-			infilefd = open(filename, O_RDONLY, 0644);
-			if (infilefd == -1)
-			{
-				dprintf(STDERR_FILENO, "%s: No such file or directory\n", filename); // ft
-				set_exit_status(1);
-				return (-1);
-			}
-		}
-		node = node->next;
-	}
-	return (infilefd);
+int	get_filename_and_infilefd(t_tokennode *node)
+{
+    char *filename;
+    int infilefd;
+
+    filename = node->next->token;
+    infilefd = open(filename, O_RDONLY, 0644);
+    if (infilefd == -1)
+    {
+        dprintf(STDERR_FILENO, "%s: No such file or directory\n", filename);
+        set_exit_status(1);
+        return (-1);
+    }
+    return infilefd;
 }
 
-int	get_outfilefd(t_tokenlist *redirlist)
+int	get_infilefd(t_tokenlist *redirlist)
 {
-	t_tokennode	*node;
-	int			outfilefd;
-	char		*filename;
+    t_tokennode	*node;
+    int			infilefd;
 
-	node = redirlist->head;
-	outfilefd = 0;
-	while (node)
-	{
-		if (is_outfile(node->token) || is_append(node->token))
-		{
-			if (outfilefd != 0)
-				close(outfilefd);
-			if (!node->next)
-			{
-				dprintf(STDERR_FILENO, "syntax error near unexpected token 'newline'\n");
-				set_exit_status(2);
-				return (-2);
-			}
-			filename = node->next->token;
-			if (is_outfile(node->token))
-				outfilefd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			else
-				outfilefd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-			if (outfilefd == -1)
-			{
-				dprintf(STDERR_FILENO, "%s: Is a directory\n", filename); // ft
-				set_exit_status(1);
-				return (-1);
-			}
-		}
-		node = node->next;
-	}
-	return (outfilefd);
+    node = redirlist->head;
+    infilefd = 0;
+    while (node)
+    {
+        if (is_heredoc(node->token) || is_infile(node->token))
+        {
+            if (infilefd != 0)
+                close(infilefd);
+            if (!node->next)
+            {
+                dprintf(STDERR_FILENO, "syntax error near unexpected token\n");
+                set_exit_status(2);
+                return (-2);
+            }
+            infilefd = get_filename_and_infilefd(node);
+            if (infilefd == -1)
+                return (-1);
+        }
+        node = node->next;
+    }
+    return (infilefd);
 }
 
 int	get_redirfds(int redir_fds[], t_tokenlist **cmdlist)
@@ -139,4 +113,52 @@ int	get_redirfds(int redir_fds[], t_tokenlist **cmdlist)
 	}
 	free_tokenlist(redirlist);
 	return (0);
+}
+
+int get_filename_and_outfilefd(t_tokennode *node)
+{
+    char *filename;
+    int outfilefd;
+
+    filename = node->next->token;
+    if (is_outfile(node->token))
+        outfilefd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    else
+        outfilefd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+
+    if (outfilefd == -1)
+    {
+        dprintf(STDERR_FILENO, "%s: Is a directory\n", filename);
+        set_exit_status(1);
+        return (-1);
+    }
+    return outfilefd;
+}
+
+int get_outfilefd(t_tokenlist *redirlist)
+{
+    t_tokennode *node;
+    int outfilefd;
+
+    node = redirlist->head;
+    outfilefd = 0;
+    while (node)
+    {
+        if (is_outfile(node->token) || is_append(node->token))
+        {
+            if (outfilefd != 0)
+                close(outfilefd);
+            if (!node->next)
+            {
+                dprintf(STDERR_FILENO, "syntax error near unexpected token\n");
+                set_exit_status(2);
+                return (-2);
+            }
+            outfilefd = get_filename_and_outfilefd(node);
+            if (outfilefd == -1)
+                return (-1);
+        }
+        node = node->next;
+    }
+    return outfilefd;
 }
