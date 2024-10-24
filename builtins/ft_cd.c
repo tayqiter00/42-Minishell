@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:48:20 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/05 03:47:30 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/24 12:13:51 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,34 @@ void	change_pwd(char **envp)
 
 }
 
+int	cd_to_dir(t_tokennode *args, char **envp)
+{
+    if (!args || args->is_meta_char)
+        return (cd_home(envp));
+    else if (args->next == NULL)
+        return (chdir(args->token));
+    else
+    {
+        dprintf(STDERR_FILENO, "cd: too many arguments\n");
+        return (1);
+    }
+}
+
+int handle_cd_error(int errno, t_tokennode *args)
+{
+    if (errno == -1)
+    {
+        dprintf(STDERR_FILENO, "cd: %s: No such file or directory\n", args->token);
+        return (1);
+    }
+    else if (errno)
+    {
+        dprintf(STDERR_FILENO, "cd: %s: Permission denied\n", args->token);
+        return (1);
+    }
+    return (0);
+}
+
 /**
  * Not handling cd ~ currently
  * 
@@ -93,39 +121,20 @@ void	change_pwd(char **envp)
  */
 int	ft_cd(t_tokennode *args, char **envp)
 {
-	int	errno;
-	char	*curdir;
+    int		errno;
+    char	*curdir;
 
-	errno = 0;
-	curdir = getenv("PWD");
-	if (curdir == NULL) // leave it first
-	{
-		dprintf(STDERR_FILENO, "Error: PWD environment variable not found\n");
-		return (1);
-	}
-	if (!args || args->is_meta_char)
-		errno = cd_home(envp);
-	else if (args->next == NULL)
-		errno = chdir(args->token);
-	else
-	{
-		dprintf(STDERR_FILENO, "cd: too many arguments\n"); // ft_dprintf
-		return (1); // return error
-	}
-	// if (errno)
-	// {
-	// 	if (errno == -1)
-	// 	{
-	// 		dprintf(STDERR_FILENO, "cd: %s: No such file or directory\n",
-	// 			args->token); // ft_dprintf (can simplify if too long)
-	// 			return (1); // think about return value
-	// 	}
-	// 	else
-	// 	{
-	// 		dprintf(STDERR_FILENO, "cd: %s: Permission denied\n", args->token); // ft_dprintf
-	// 		return (1); // think about return value
-	// 	}
-	// }
-	change_oldpwd(curdir, envp);
-	change_pwd(envp);
+    errno = 0;
+    curdir = getenv("PWD");
+    if (curdir == NULL)
+    {
+        dprintf(STDERR_FILENO, "Error: PWD environment variable not found\n");
+        return (1);
+    }
+    errno = cd_to_dir(args, envp);
+    if (handle_cd_error(errno, args))
+        return (1);
+    change_oldpwd(curdir, envp);
+    change_pwd(envp);
+    return (0);
 }
