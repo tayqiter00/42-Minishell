@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   char_check_4.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:18:22 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/16 17:42:38 by xquah            ###   ########.fr       */
+/*   Updated: 2024/10/22 12:12:24 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ bool	is_ampersand(char c)
 
 bool	is_append(char *token)
 {
-	return (!ft_strncmp(token, ">>", ft_strlen(token)));
+	return (!ft_strcmp(token, ">>"));
 }
 
 bool	is_outfile(char *token)
 {
-	return (!ft_strncmp(token, ">", ft_strlen(token)));
+	return (!ft_strcmp(token, ">"));
 }
 
 bool	is_builtin(t_tokenlist *cmdlist)
@@ -39,19 +39,19 @@ bool	is_builtin(t_tokenlist *cmdlist)
 	if (cmdlist->head == NULL)
 		return (false);
 	cmd = cmdlist->head->token;
-	if (!ft_strncmp(cmd, "echo", ft_strlen(cmd)))
+	if (!ft_strcmp(cmd, "echo"))
 		return (true);
-	if (!ft_strncmp(cmd, "cd", ft_strlen(cmd)))
+	if (!ft_strcmp(cmd, "cd"))
 		return (true);
-	if (!ft_strncmp(cmd, "pwd", ft_strlen(cmd)))
+	if (!ft_strcmp(cmd, "pwd"))
 		return (true);
-	if (!ft_strncmp(cmd, "export", ft_strlen(cmd)))
+	if (!ft_strcmp(cmd, "export"))
 		return (true);
-	if (!ft_strncmp(cmd, "unset", ft_strlen(cmd)))
+	if (!ft_strcmp(cmd, "unset"))
 		return (true);
-	if (!ft_strncmp(cmd, "env", ft_strlen(cmd)))
+	if (!ft_strcmp(cmd, "env"))
 		return (true);
-	if (!ft_strncmp(cmd, "exit", ft_strlen(cmd)))
+	if (!ft_strcmp(cmd, "exit"))
 		return (true);
 	return (false);
 }

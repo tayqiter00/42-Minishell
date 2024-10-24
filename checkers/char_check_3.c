@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   char_check_3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:18:14 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/16 17:44:17 by xquah            ###   ########.fr       */
+/*   Updated: 2024/10/22 12:11:08 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ bool    is_newline(int c)
  */
 bool	is_redir(char *token)
 {
-	return (!ft_strncmp(token, "<<", ft_strlen(token))
-		|| !ft_strncmp(token, ">>", ft_strlen(token))
-		|| !ft_strncmp(token, "<", ft_strlen(token))
-		|| !ft_strncmp(token, ">", ft_strlen(token)));
+	return (!ft_strcmp(token, "<<")
+		|| !ft_strcmp(token, ">>")
+		|| !ft_strcmp(token, "<")
+		|| !ft_strcmp(token, ">"));
 }

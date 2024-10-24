@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:17:59 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/30 22:53:39 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/22 12:09:49 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 bool    is_heredoc(char *token)
 {
-	return (!ft_strncmp(token, "<<", ft_strlen(token)));	
+	return (!ft_strcmp(token, "<<"));
 }
 
 bool    is_questionmark(int c)

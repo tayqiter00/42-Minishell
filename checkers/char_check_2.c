@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:18:09 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/30 22:56:03 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/22 12:10:31 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ bool    is_quote(int c)
 
 bool    is_infile(char *token)
 {
-	return (!ft_strncmp(token, "<", ft_strlen(token)));	
+	return (!ft_strcmp(token, "<"));	
 }
 
 bool	is_question_mark(char c)
