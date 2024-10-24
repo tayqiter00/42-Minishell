@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:59:22 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/01 00:48:43 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/24 12:25:25 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,50 +74,66 @@ void    link_tokenlist(t_tokennode *tokennode, t_tokenlist *tokenlist)
 	}
 }
 
+void initialize_processing_state(bool *heredoc_file, bool *metachar)
+{
+    *heredoc_file = false;
+    *metachar = false;
+}
+
+void create_and_link_token_node(t_tokenlist *tokenlist, char *token, bool metachar)
+{
+    t_tokennode *tokennode;
+
+    tokennode = create_tokennode(token, metachar);   // Create a new token node
+    link_tokenlist(tokennode, tokenlist);            // Link the node to the token list
+}
+
+char *process_token(char *token, t_tokenlist *tokenlist, bool *heredoc_file, char **envp, bool *metachar)
+{
+    if (is_heredoc(token) && !(*heredoc_file))
+    {
+        *heredoc_file = true;
+    }
+    else if (*heredoc_file)
+    {
+        token = process_heredoc(token, tokenlist, envp, *metachar);
+        *heredoc_file = false;
+    }
+    else
+    {
+        token = expand_and_sanitize_token(token, envp);
+    }
+    return token;
+}
+
 /**
  * create_heredoc seems to work but still need to double check
  */
-t_tokenlist	*get_tokenlist(char *input, char **envp)
+t_tokenlist *get_tokenlist(char *input, char **envp)
 {
     t_tokenlist *tokenlist;
     char        *token;
-    t_tokennode *tokennode;
-	bool		heredoc_file;
-	bool		metachar;
+    bool        heredoc_file;
+    bool        metachar;
 
-	if (input == NULL)
-		return (NULL);
-	heredoc_file = false;
-    tokenlist = create_tokenlist(); // malloc
-    token = get_next_token(input); // malloc (freed in expand_env)
+    if (input == NULL)
+        return NULL;
+    tokenlist = create_tokenlist();      // Create a token list
+    token = get_next_token(input);       // Get the first token
+    initialize_processing_state(&heredoc_file, &metachar);  // Initialize state variables
     while (token)
     {
-		metachar = false;
-		if (is_metachar(token))
-			metachar = true;
-		if (is_heredoc(token) && !heredoc_file) // <<
-			heredoc_file = true;
-		else if (heredoc_file)
-		{
-			token = create_heredoc(token, envp, metachar); // name of heredoc file returned
-			if (!token)
-			{
-				free_tokenlist(tokenlist);
-				return (NULL);
-			}
-			heredoc_file = false;
-		}
-		else
-		{
-			token = expand_env(token, envp); // malloc
-			token = sanitize_token(token);
-		}
-        tokennode = create_tokennode(token, metachar); // malloc
-        link_tokenlist(tokennode, tokenlist);
-        token = get_next_token(NULL);
+        update_metachar_state(token, &metachar);            // Update metachar state
+        token = process_token(token, tokenlist, &heredoc_file, envp, &metachar);  // Process the token
+        if (!token && heredoc_file)                         // Check for heredoc failure
+        {
+            free_tokenlist(tokenlist);
+            return NULL;
+        }
+        create_and_link_token_node(tokenlist, token, metachar);   // Create and link token node
+        token = get_next_token(NULL);                            // Get the next token
     }
-	// free(token);
-    return (tokenlist);
+    return tokenlist;
 }
 
 // int	main()
