@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:59:22 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/24 12:25:25 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/24 12:57:10 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,29 @@ void create_and_link_token_node(t_tokenlist *tokenlist, char *token, bool metach
     link_tokenlist(tokennode, tokenlist);            // Link the node to the token list
 }
 
+char *process_heredoc(char *token, t_tokenlist *tokenlist, char **envp, bool metachar)
+{
+    token = create_heredoc(token, envp, metachar);  // Handle heredoc creation
+    if (!token)  // In case heredoc creation fails
+    {
+        free_tokenlist(tokenlist);
+        return NULL;
+    }
+    return token;
+}
+
+char *expand_and_sanitize_token(char *token, char **envp)
+{
+    token = expand_env(token, envp);  // Expand environment variables
+    token = sanitize_token(token);    // Sanitize the token
+    return token;
+}
+
+bool is_metachar_token(char *token)
+{
+    return is_metachar(token);  // Check if token is a metacharacter
+}
+
 char *process_token(char *token, t_tokenlist *tokenlist, bool *heredoc_file, char **envp, bool *metachar)
 {
     if (is_heredoc(token) && !(*heredoc_file))
@@ -104,6 +127,11 @@ char *process_token(char *token, t_tokenlist *tokenlist, bool *heredoc_file, cha
         token = expand_and_sanitize_token(token, envp);
     }
     return token;
+}
+
+void update_metachar_state(char *token, bool *metachar)
+{
+    *metachar = is_metachar_token(token);
 }
 
 /**
