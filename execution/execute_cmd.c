@@ -3,35 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 02:28:38 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/16 17:24:24 by xquah            ###   ########.fr       */
+/*   Updated: 2024/10/24 12:20:22 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 # include <linux/limits.h>
-
-/**
- * Function to see what file an FD is referring to
- */
-// void	print_fd_filename(int fd)
-// {
-//     char	path[PATH_MAX];
-//     char	filename[PATH_MAX];
-// 	ssize_t	len;
-
-// 	snprintf(path, sizeof(path), "/proc/self/fd/%d", fd);
-// 	len = readlink(path, filename, sizeof(filename) - 1);
-//     if (len != -1)
-// 	{
-// 		filename[len] = '\0';
-// 		printf("File descriptor %d refers to: %s\n", fd, filename);
-//     }
-// 	else
-// 		perror("readlink");
-// }
 
 /**
  * Add back char **envp as an argument once cd, 
@@ -62,7 +42,6 @@ int run_cmd(t_tokenlist *currcmd, char ***envp)
 	if (!ft_strcmp(cmd, "env"))
 		return (ft_env(*envp));
 	return (ft_execve(*envp, currcmd));
-	//return (0);
 }
 
 int handle_normcmd(int prev_pipefd[], t_tokenlist **cmdlist, char ***envp)
@@ -70,6 +49,7 @@ int handle_normcmd(int prev_pipefd[], t_tokenlist **cmdlist, char ***envp)
 	int				redir_fds[2];
 	int				oristdio[2];
 	int				exitcode;
+	pid_t			pid;
 
 	store_oristdio(oristdio);
 	if (get_redirfds(redir_fds, cmdlist) == -1)
@@ -77,17 +57,17 @@ int handle_normcmd(int prev_pipefd[], t_tokenlist **cmdlist, char ***envp)
 	set_normcmd_redir(redir_fds[0], redir_fds[1]);
 	if (prev_pipefd[0] == 0 && is_builtin(*cmdlist))
 		set_exit_status(run_cmd(*cmdlist, envp));
-		// exit(1);
 	else
 	{
-		if (create_fork() == 0)
+		pid = create_fork();
+		if (pid == 0)
 		{
 			read_from_pipe(prev_pipefd, redir_fds[0]);
 			exit(run_cmd(*cmdlist, envp));
-			// exit(1);
 		}
 		close_pipes(prev_pipefd);
 	}
+	set_exit_status(wait_for_child(pid));
 	restore_oristdio(oristdio);
 	config_signals();
 	return (0);
@@ -95,28 +75,24 @@ int handle_normcmd(int prev_pipefd[], t_tokenlist **cmdlist, char ***envp)
 
 int	handle_pipecmd(int pipefd[], int prev_pipefd[], t_tokenlist **cmdlist, char ***envp)
 {
-	char	path[100];
 	int		redir_fds[2];
-	// int	origio[2];
+	int		origio[2];
+	pid_t	pid;
 
 	if (get_redirfds(redir_fds, cmdlist) == -1)
 		return (1);
-	// init_origio(origio);
-	if (create_fork() == 0) 
+	pid = create_fork();
+	if (pid == 0) 
 	{
 		child_redir(pipefd, prev_pipefd, redir_fds);
-		// print_fd_filename(0);
-		// exit(run_cmd(*cmdlist));
-		exit(1);
+		exit(run_cmd(*cmdlist, envp));
 	}
-	else
-		store_pipefd(pipefd, prev_pipefd);
+	store_pipefd(pipefd, prev_pipefd);
+	set_exit_status(wait_for_child(pid));
 	if (redir_fds[0] != 0)
 		close(redir_fds[0]);
 	if (redir_fds[1] != 0)
 		close(redir_fds[1]);
-	// restore_originalfd(origio[0], origio[1]);
-	config_signals();
 }
 
 int	exec_cmdlist(int prev_pipefd[], t_tokenlist **cmdlist, bool with_pipe, char ***envp)
