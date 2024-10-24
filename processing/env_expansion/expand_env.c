@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 14:15:10 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/05 22:55:23 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/24 12:24:18 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,42 +42,51 @@ int	count_env_len(char *env, char **envp)
 	return (1);
 }
 
+int count_env_var_len(char **token, char *env, char **envp)
+{
+    int len;
+	
+	len = 0;
+    if (env)
+    {
+        len += count_env_len(env, envp);
+        *token += ft_strlen(env);
+        free(env);
+    }
+    return (len);
+}
+
 /**
  * A single token might contain several $
  */
-int		count_expanded_len(char *token, char **envp)
+int count_expanded_len(char *token, char **envp)
 {
-	int		len;
-	char	*env;
-	bool	in_quote;
-	int		quote_type;
-	
-	len = 0;
-	in_quote = false;
-	quote_type = '\0';
-	env = get_next_env(token);
-	while (*token)
-	{
-		if ((!is_dollarsign(*token) && !is_quote(*token)) || (is_dollarsign(*token) && is_singlequote(quote_type)))
-			;
-		else if (is_dollarsign(*token))
-		{
-			if (env)
-			{
-				len += count_env_len(env, envp);
-				token += ft_strlen(env);
-				free(env);
-				env = get_next_env(NULL);
-				continue ;
-			}
-		}
-        else if (is_quote(*token))
-            set_in_quote(*token, &in_quote, &quote_type);
-		len++;
+    int     len;
+    char    *env;
+    bool    in_quote;
+    int     quote_type;
+
+    len = 0;
+    in_quote = false;
+    quote_type = '\0';
+    env = get_next_env(token);
+    while (*token)
+    {
+        if ((!is_dollarsign(*token) && !is_quote(*token)) || (is_dollarsign(*token) && is_singlequote(quote_type)))
+            ;
+        else if (is_dollarsign(*token))
+        {
+            len += count_env_var_len(&token, env, envp);
+            env = get_next_env(NULL);
+            continue ;
+        }
+        handle_quote(*token, &in_quote, &quote_type);
+        len++;
         token++;
-	}
-	return (len);
+    }
+    return (len);
 }
+
 
 char	*expand_env(char *token, char **envp)
 {
