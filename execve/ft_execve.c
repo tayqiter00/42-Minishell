@@ -6,15 +6,15 @@
 /*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:00:46 by xquah             #+#    #+#             */
-/*   Updated: 2024/10/16 17:41:09 by xquah            ###   ########.fr       */
+/*   Updated: 2024/10/25 16:45:09 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-bool	is_executable(char *full_path)
+bool is_executable(char *full_path)
 {
-	DIR	*dp;
+	DIR *dp;
 
 	dp = opendir(full_path);
 	if (dp != NULL)
@@ -25,10 +25,10 @@ bool	is_executable(char *full_path)
 	return (true);
 }
 
-char	*strjoin_sep(char const *s1, char const *s2, char *sep)
+char *strjoin_sep(char const *s1, char const *s2, char *sep)
 {
-	char	*buffer;
-	int		total_len;
+	char *buffer;
+	int total_len;
 
 	if (!s1 || !s2)
 		return (NULL);
@@ -42,11 +42,11 @@ char	*strjoin_sep(char const *s1, char const *s2, char *sep)
 	return (buffer);
 }
 
-static char	**currcmd_to_2d_array(t_tokenlist *currcmd)
+static char **currcmd_to_2d_array(t_tokenlist *currcmd)
 {
-	char		**result;
-	t_tokennode	*current;
-	int			i;
+	char **result;
+	t_tokennode *current;
+	int i;
 
 	result = malloc(sizeof(char *) * (count_heredocs(currcmd) + 1));
 	if (result == NULL)
@@ -71,11 +71,11 @@ static char	**currcmd_to_2d_array(t_tokenlist *currcmd)
 	return (result);
 }
 
-static char	*find_full_bin_path(char *bin, char **envp)
+static char *find_full_bin_path(char *bin, char **envp)
 {
-	int		i;
-	char	*path;
-	char	*full_path;
+	int i;
+	char *path;
+	char *full_path;
 
 	if (is_invalid_filename(bin))
 		return (NULL);
@@ -83,7 +83,7 @@ static char	*find_full_bin_path(char *bin, char **envp)
 	while (envp[++i])
 	{
 		if (ft_strncmp(envp[i], "PATH=", 5) != 0)
-			continue ;
+			continue;
 		path = ft_strtok(envp[i] + 5, ':');
 		while (path)
 		{
@@ -100,29 +100,28 @@ static char	*find_full_bin_path(char *bin, char **envp)
 	return (NULL);
 }
 
-int	ft_execve(char **envp, t_tokenlist *cmd)
+int ft_execve(char **envp, t_tokenlist *cmd)
 {
-	char	**args;
-	char	*bin;
+	char **args;
+	char *bin;
 
 	args = currcmd_to_2d_array(cmd);
 	bin = find_full_bin_path(args[0], envp);
 	if (bin == NULL)
 	{
 		if (!ft_strcmp(args[0], "."))
-			printf("%s: filename argument required\n", args[0]);
+			return (printf("%s: filename argument required\n", args[0]), 1);
 		else if (ft_strchr(args[0], '/') && !has_alpha(args[0]))
-			printf("%s: is a directory\n", args[0]);
+			return (printf("%s: is a directory\n", args[0]), 1);
 		else if (ft_strchr(args[0], '/'))
-			printf("%s: No such file or directory\n", args[0]);
+			return (printf("%s: No such file or directory\n", args[0]), 1);
 		else if (ft_strlen(args[0]) == 0)
-			printf("\'\': command not found\n");
+			return (printf("\'\': command not found\n"), 127);
 		else
-			printf("%s: command not found\n", args[0]);
+			return (printf("%s: command not found\n", args[0]), 127);
 		free_double_arr(args);
-		return (-1);
 	}
 	execve(bin, args, envp);
 	free_double_arr(args);
-	return (-1);
+	return (0);
 }
