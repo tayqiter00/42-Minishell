@@ -53,7 +53,8 @@ SRC_FILES = driver/minishell.c \
             execution/exec_cmd_utils.c \
             execution/exec_cmd_utils2.c \
             execution/exec_cmd_utils3.c \
-            execve/ft_execve.c
+            execve/ft_execve.c \
+            execve/ft_execve_utils.c
 
 # Define object files path
 OBJS = $(patsubst %.c, $(OBJDIR)%.o, $(SRC_FILES))
