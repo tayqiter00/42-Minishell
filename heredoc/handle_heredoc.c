@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 15:51:05 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/28 13:40:29 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/28 18:04:12 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,16 +91,16 @@ void	read_terminal(char *delim, char **envp, int heredoc_fd)
 	if (pid == 0)
 	{
 		default_signals();
-		while (get_exit_status() == 0) // maybe add sth related to global signal
+		while (true)
 		{
 			input = readline("heredoc> ");
-			if (!ft_strncmp(input, delim, ft_strlen(input)))
+			if (!ft_strcmp(input, delim))
 				break ;
-			if (input == NULL && get_exit_status() == 0)
+			if (input == NULL)
 			{
 				dprintf(STDERR_FILENO, "warning: here-document delimited by end-of-file\n"); // ft
 				free(delim);
-				return ;
+				exit(get_exit_status());
 			}
 			if (!has_quotes)
 				input = expand_env(input, envp);
