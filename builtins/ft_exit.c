@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 23:36:50 by xquah             #+#    #+#             */
-/*   Updated: 2024/10/06 20:18:58 by xquah            ###   ########.fr       */
+/*   Updated: 2024/10/28 17:33:11 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ static int	count_exit_args(t_tokennode *args)
 	while (args)
 	{
 		dup_subtoken = ft_strdup(args->token);
-		subtoken = ft_strtok(dup_subtoken, ' ');
+		subtoken = ft_strtok(dup_subtoken, " ");
 		while (subtoken)
 		{
 			args_count++;
-			subtoken = ft_strtok(NULL, ' ');
+			subtoken = ft_strtok(NULL, " ");
 		}
 		free(dup_subtoken);
 		args = args->next;
@@ -42,7 +42,7 @@ static int process_exit_args(t_tokennode *args)
 
 	args_count = count_exit_args(args);
 	dup_subtoken = ft_strdup(args->token);
-	first_arg = ft_strtok(dup_subtoken, ' ');
+	first_arg = ft_strtok(dup_subtoken, " ");
 	if (first_arg && contain_only_digits(first_arg))
 	{
 		if (args_count == 1)
