@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:19:30 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/16 17:36:01 by xquah            ###   ########.fr       */
+/*   Updated: 2024/10/28 13:42:21 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ int			get_exit_status(void);
 void		set_exit_status(int status);
 void		default_signals(void);
 void		ignore_signals(void);
+void		wait_for_child(void);
 
 /* ************************************************************************** */
 /*                                 EXECUTION                                  */
