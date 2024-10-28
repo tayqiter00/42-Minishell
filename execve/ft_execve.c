@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execve.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:00:46 by xquah             #+#    #+#             */
-/*   Updated: 2024/10/28 14:34:34 by xquah            ###   ########.fr       */
+/*   Updated: 2024/10/28 17:41:53 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static char	*find_full_bin_path(char *bin, char **envp)
 	{
 		if (ft_strncmp(envp[i], "PATH=", 5) != 0)
 			continue ;
-		path = ft_strtok(envp[i] + 5, ':');
+		path = ft_strtok(envp[i] + 5, ":");
 		while (path)
 		{
 			if (bin[0] == '.' || bin[0] == '/')
@@ -94,7 +94,7 @@ static char	*find_full_bin_path(char *bin, char **envp)
 			if (is_executable(full_path) && access(full_path, X_OK) == 0)
 				return (full_path);
 			free(full_path);
-			path = ft_strtok(NULL, ':');
+			path = ft_strtok(NULL, ":");
 		}
 	}
 	return (NULL);

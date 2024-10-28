@@ -3,39 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtok.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 19:50:14 by xquah             #+#    #+#             */
-/*   Updated: 2024/10/06 19:50:21 by xquah            ###   ########.fr       */
+/*   Updated: 2024/10/28 17:45:43 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strtok(char *str, char sepa)
+char	*ft_strtok(char *str, const char *delim)
 {
-	static char	*stock = NULL;
-	char		*ptr;
+	static char	*saved_str;
+	char		*token;
 	int			i;
+	int			j;
+	int			k;
 
-	i = 0;
-	ptr = NULL;
 	if (str != NULL)
-		stock = ft_strdup(str);
-	while (*stock != '\0')
+		saved_str = str;
+	if (saved_str == NULL)
+		return (NULL);
+	i = 0;
+	k = 0;
+	while (saved_str[i] != '\0')
 	{
-		if (i == 0 && *stock != sepa)
+		j = 0;
+		while (delim[j] != '\0')
 		{
-			i = 1;
-			ptr = stock;
+			if (saved_str[i] == delim[j])
+			{
+				saved_str[i] = '\0';
+				token = &saved_str[k];
+				saved_str = &saved_str[i + 1];
+				return (token);
+			}
+			j++;
 		}
-		else if (i == 1 && *stock == sepa)
-		{
-			*stock = '\0';
-			stock += 1;
-			break ;
-		}
-		stock++;
+		i++;
 	}
-	return (ptr);
+	token = &saved_str[k];
+	saved_str = NULL;
+	return (token);
 }
