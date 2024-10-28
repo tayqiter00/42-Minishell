@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 19:57:43 by xquah             #+#    #+#             */
-/*   Updated: 2024/10/06 19:57:59 by xquah            ###   ########.fr       */
+/*   Updated: 2024/10/26 20:53:23 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,12 @@ void	handle_numeric_exit(char *first_arg, char *dup_subtoken)
 	exit(exit_code);
 }
 
+/**
+ * My bash says exit code for this is 2
+ */
 void	handle_non_numeric_exit(char *dup_subtoken)
 {
 	printf("numeric argument required\n");
 	free(dup_subtoken);
-	exit(255);
+	exit(2);
 }
