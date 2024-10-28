@@ -6,7 +6,7 @@
 /*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:08:35 by xquah             #+#    #+#             */
-/*   Updated: 2024/10/12 20:17:35 by xquah            ###   ########.fr       */
+/*   Updated: 2024/10/28 16:07:22 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@ bool	entry_has_valid_name(char *args)
 	{
 		while (is_valid_env_name(*args))
 			args++;
-		if (is_equal(*args))
-			return (true);
+		// if (is_equal(*args))
+		// 	return (true);
+		return (true);
 	}
 	return (false);
 }

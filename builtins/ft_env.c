@@ -6,7 +6,7 @@
 /*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 15:18:23 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/08 23:08:36 by xquah            ###   ########.fr       */
+/*   Updated: 2024/10/28 16:11:59 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ int	ft_env(char **envp)
 {
 	while (*envp)
 	{
-		if (**envp != '\0')
+		if (!ft_strchr(*envp, '='))
+			*envp++;
+		else if (**envp != '\0')
 			printf("%s\n", *envp);
 		*envp++;
 	}
