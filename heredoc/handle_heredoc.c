@@ -6,13 +6,11 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 15:51:05 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/01 00:54:25 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/28 13:40:29 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-// #include <errno.h>
-// extern int    errno;
 
 int	count_heredocs(t_tokenlist *tokenlist)
 {
@@ -36,7 +34,7 @@ int	eval_heredocs(t_tokenlist **tokenlist)
 	int			heredocs_count;
 	t_tokenlist	*result;
 
-	if (!tokenlist || !(*tokenlist))
+	if (!tokenlist || !(*tokenlist) || !(*tokenlist)->head)
 		return (0);
 	count = 1;
 	heredocs_count = count_heredocs(*tokenlist);
@@ -79,37 +77,44 @@ void	unlink_heredocs(int heredoc_count)
 		free(heredoc_path);
 	}
 }
-
 void	read_terminal(char *delim, char **envp, int heredoc_fd)
 {
 	bool	has_quotes;
 	char	*input;
+	pid_t	pid;
 
 	has_quotes = false;
 	if (ft_strchr(delim, '"') || ft_strchr(delim, '\''))
 		has_quotes = true;
 	delim = sanitize_token(delim); // quote removals for actual delimiter
-	// delim = ft_strjoin(delim, "\n"); // exit for malloc failure instead of return NULL
-	input = readline("heredoc> "); // technically should check for readline malloc...
-	if (input == NULL)
+	pid = create_fork();
+	if (pid == 0)
 	{
-		dprintf(STDERR_FILENO, "warning: here-document delimited by end-of-file\n"); // ft
-		free(delim);
-		return ;
+		default_signals();
+		while (get_exit_status() == 0) // maybe add sth related to global signal
+		{
+			input = readline("heredoc> ");
+			if (!ft_strncmp(input, delim, ft_strlen(input)))
+				break ;
+			if (input == NULL && get_exit_status() == 0)
+			{
+				dprintf(STDERR_FILENO, "warning: here-document delimited by end-of-file\n"); // ft
+				free(delim);
+				return ;
+			}
+			if (!has_quotes)
+				input = expand_env(input, envp);
+			write(heredoc_fd, input, ft_strlen(input));
+			write(heredoc_fd, "\n", 1);
+			free(input);
+		}
+		exit(get_exit_status());
 	}
-	while (get_exit_status() == 0) // maybe add sth related to global signal
-	{
-		if (!ft_strncmp(input, delim, ft_strlen(input)))
-			break ;
-		if (!has_quotes)
-			input = expand_env(input, envp);
-		write(heredoc_fd, input, ft_strlen(input));
-		write(heredoc_fd, "\n", 1);
-		free(input);
-		input = readline("heredoc> ");
-	}
+	ignore_signals();
+	wait_for_child();
+	config_signals();
 	free(delim);
-	free(input);
+	// free(input);
 }
 
 /**
