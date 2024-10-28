@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 02:28:38 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/24 12:20:22 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/28 13:36:34 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,8 @@ int handle_normcmd(int prev_pipefd[], t_tokenlist **cmdlist, char ***envp)
 		}
 		close_pipes(prev_pipefd);
 	}
-	set_exit_status(wait_for_child(pid));
+	ignore_signals();
 	restore_oristdio(oristdio);
-	config_signals();
 	return (0);
 }
 
@@ -82,13 +81,12 @@ int	handle_pipecmd(int pipefd[], int prev_pipefd[], t_tokenlist **cmdlist, char 
 	if (get_redirfds(redir_fds, cmdlist) == -1)
 		return (1);
 	pid = create_fork();
-	if (pid == 0) 
+	if (pid == 0)
 	{
 		child_redir(pipefd, prev_pipefd, redir_fds);
 		exit(run_cmd(*cmdlist, envp));
 	}
 	store_pipefd(pipefd, prev_pipefd);
-	set_exit_status(wait_for_child(pid));
 	if (redir_fds[0] != 0)
 		close(redir_fds[0]);
 	if (redir_fds[1] != 0)
