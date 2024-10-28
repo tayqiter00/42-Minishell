@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 05:55:09 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/28 13:35:29 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/28 17:36:23 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	wait_for_child(void)
 		if (WIFSIGNALED(exit_status)) // checks if the child process was terminated by a signal
 		{
 			if (WTERMSIG(exit_status) == 3) // SIGQUIT
-				dprintf(2, "Quit (core dumped)\n"); // ft
+				dprintf(2, "Quit: 3\n"); // ft
 			else if (WTERMSIG(exit_status) == 2  && !newline) // SIGINT
 			{
 				newline = true;
