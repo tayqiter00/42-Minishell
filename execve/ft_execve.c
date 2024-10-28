@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execve.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:00:46 by xquah             #+#    #+#             */
-/*   Updated: 2024/10/27 14:28:50 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/28 14:34:34 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static char	**currcmd_to_2d_array(t_tokenlist *currcmd)
 	t_tokennode	*current;
 	int			i;
 
-	result = malloc(sizeof(char *) * (count_heredocs(currcmd) + 1));
+	result = malloc(sizeof(char *) * (count_cmdlist(currcmd) + 1));
 	if (result == NULL)
 	{
 		printf("malloc failed for result\n");
