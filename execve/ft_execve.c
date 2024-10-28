@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execve.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:00:46 by xquah             #+#    #+#             */
-/*   Updated: 2024/10/16 17:41:09 by xquah            ###   ########.fr       */
+/*   Updated: 2024/10/27 14:28:50 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,9 +116,9 @@ int	ft_execve(char **envp, t_tokenlist *cmd)
 		else if (ft_strchr(args[0], '/'))
 			printf("%s: No such file or directory\n", args[0]);
 		else if (ft_strlen(args[0]) == 0)
-			printf("\'\': command not found\n");
+			return (printf("\'\': command not found\n"), 127);
 		else
-			printf("%s: command not found\n", args[0]);
+			return (dprintf(STDERR_FILENO, "%s: command not found\n", args[0]), 127);
 		free_double_arr(args);
 		return (-1);
 	}
