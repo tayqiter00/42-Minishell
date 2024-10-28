@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 14:15:10 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/28 13:44:39 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/28 18:04:51 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ int		count_expanded_len(char *token, char **envp)
 	in_quote = false;
 	quote_type = '\0';
 	env = get_next_env(token);
+	if (token == NULL)
+		return (0);
 	while (*token)
 	{
 		if ((!is_dollarsign(*token) && !is_quote(*token)) || (is_dollarsign(*token) && is_singlequote(quote_type)))
