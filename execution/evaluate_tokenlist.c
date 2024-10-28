@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 05:55:09 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/01 00:51:56 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/28 13:35:29 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,31 @@ t_tokennode	*pop_tokennode(t_tokenlist *tokenlist)
 	return (popnode);
 }
 
+/**
+ * technically, bash doesnt give 130 if you ctrl+C with pipe but a cmd runs
+ */
 void	wait_for_child(void)
 {
 	int	exit_status;
+	bool	newline;
 
+	newline = false;
 	while (waitpid(-1, &exit_status, 0) > 0)
-		set_exit_status(WEXITSTATUS(exit_status));
+	{
+		if (WIFSIGNALED(exit_status)) // checks if the child process was terminated by a signal
+		{
+			if (WTERMSIG(exit_status) == 3) // SIGQUIT
+				dprintf(2, "Quit (core dumped)\n"); // ft
+			else if (WTERMSIG(exit_status) == 2  && !newline) // SIGINT
+			{
+				newline = true;
+				dprintf(2, "\n"); // ft
+			}
+			set_exit_status(128 + WTERMSIG(exit_status));
+		}
+		else if (WIFEXITED(exit_status))
+			set_exit_status(WEXITSTATUS(exit_status));
+	}
 }
 
 /**
@@ -40,7 +59,7 @@ void	eval_tokenlist(t_tokenlist *tokenlist, int heredoc_count, char ***envp)
 	t_tokenlist	*cmdlist;
 	int			prev_pipefd[2];
 
-	if (!tokenlist)
+	if (!tokenlist || (heredoc_count && get_exit_status() == 130))
 		return ;
 	ft_bzero(prev_pipefd, sizeof(int) * 2);
 	while (tokenlist && tokenlist->head)
