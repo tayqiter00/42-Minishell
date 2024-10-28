@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 23:50:40 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/28 13:36:02 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/28 14:22:48 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,34 +82,11 @@ int	get_infilefd(t_tokenlist *redirlist)
 	return (infilefd);
 }
 
-int	get_redirfds(int redir_fds[], t_tokenlist **cmdlist)
+int get_outfilefd(t_tokenlist *redirlist)
 {
-	t_tokenlist	*redirlist;
-
-	redirlist = extract_redirs(cmdlist);
-	redir_fds[0] = get_infilefd(redirlist); // redir_fds[INFILE]
-	if (redir_fds[0] < 0)
-	{
-		set_exit_status(-1 * redir_fds[0]);
-		free_tokenlist(redirlist);
-		return (-1); // 
-	}
-	redir_fds[1] = get_outfilefd(redirlist); // redir_fds[OUTFILE]
-	if (redir_fds[1] < 0)
-	{
-		set_exit_status(-1 * redir_fds[1]);
-		free_tokenlist(redirlist);
-		return (-1);
-	}
-	free_tokenlist(redirlist);
-	return (0);
-}
-
-int	get_outfilefd(t_tokenlist *redirlist)
-{
-	t_tokennode	*node;
-	int			outfilefd;
-	char		*filename;
+	t_tokennode *node;
+	int outfilefd;
+	char *filename;
 
 	node = redirlist->head;
 	outfilefd = 0;
@@ -140,4 +117,27 @@ int	get_outfilefd(t_tokenlist *redirlist)
 		node = node->next;
 	}
 	return (outfilefd);
+}
+
+int	get_redirfds(int redir_fds[], t_tokenlist **cmdlist)
+{
+	t_tokenlist	*redirlist;
+
+	redirlist = extract_redirs(cmdlist);
+	redir_fds[0] = get_infilefd(redirlist); // redir_fds[INFILE]
+	if (redir_fds[0] < 0)
+	{
+		set_exit_status(-1 * redir_fds[0]);
+		free_tokenlist(redirlist);
+		return (-1); // 
+	}
+	redir_fds[1] = get_outfilefd(redirlist); // redir_fds[OUTFILE]
+	if (redir_fds[1] < 0)
+	{
+		set_exit_status(-1 * redir_fds[1]);
+		free_tokenlist(redirlist);
+		return (-1);
+	}
+	free_tokenlist(redirlist);
+	return (0);
 }
