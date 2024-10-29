@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 18:26:31 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/04 15:09:03 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/28 21:17:29 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*ft_itoa(int n)
 	}
 	buffer = (char *)malloc(sizeof(char) * (len + 1));
 	if (!buffer)
-		exit(3);
+		exit(EXIT_FAILURE);
 	buffer[len] = '\0';
 	while (len--)
 	{

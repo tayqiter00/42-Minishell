@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 20:15:44 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/02 14:18:26 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/28 22:24:01 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ bool	is_option_n(t_tokennode *args)
 	}
 	return (false);
 }
+
 /**
  * Taking into account cases like echo -nnn and echo -n -n -n
  */
@@ -62,11 +63,9 @@ void	print_newline(t_tokennode *args)
  * 
  * echo with option -n doesn't output the trailing newline
  */
-#include "../includes/minishell.h"
-
 int	ft_echo(t_tokennode *args) // we gonna feed echo's args here
 {
 	print_tokens(args);
 	print_newline(args);
-	return (0); // success
+	return (0);
 }

@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_dputchar.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/02 14:21:20 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/28 20:47:58 by qtay             ###   ########.fr       */
+/*   Created: 2024/10/28 23:01:34 by qtay              #+#    #+#             */
+/*   Updated: 2024/10/28 23:01:57 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-int	ft_pwd(void)
+int	ft_dputchar(char c, int fd)
 {
-	char	buf[PATH_MAX];
-	char	*cwd;
-
-	cwd = getcwd(buf, PATH_MAX - 1);
-	printf("%s\n", cwd);
-	return (0);
+	return (write(fd, &c, 1));
 }

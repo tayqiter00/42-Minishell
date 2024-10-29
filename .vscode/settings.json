@@ -3,6 +3,8 @@
 		"minishell.h": "c",
 		"readline.h": "c",
 		"sys_headers.h": "c",
-		"stat.h": "c"
+		"stat.h": "c",
+		"stdio.h": "c",
+		"ft_dprintf.h": "c"
 	}
 }

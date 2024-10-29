@@ -1,23 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_cd_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/02 14:21:20 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/28 20:47:58 by qtay             ###   ########.fr       */
+/*   Created: 2024/10/28 20:41:24 by qtay              #+#    #+#             */
+/*   Updated: 2024/10/28 22:15:40 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	ft_pwd(void)
+int	cd_home(char **envp)
 {
-	char	buf[PATH_MAX];
-	char	*cwd;
+	while (*envp)
+	{
+		if (!ft_strncmp(*envp, "HOME=", 5))
+			break ;
+		envp++;
+	}
+	if (*envp == NULL)
+	{
+		ft_dprintf(STDERR_FILENO, "Error: HOME not found\n");
+		return (1);
+	}
+	return (chdir(*envp + 5));
+}
 
-	cwd = getcwd(buf, PATH_MAX - 1);
-	printf("%s\n", cwd);
-	return (0);
+char	*update_oldpwd(char *curdir)
+{
+	char	*updated;
+
+	updated = ft_strjoin("OLDPWD=", curdir);
+	if (updated == NULL)
+		ft_dprintf(STDERR_FILENO, "malloc failed for update_oldpwd\n");
+	return (updated);
 }

@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 14:15:10 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/28 18:04:51 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/28 23:07:23 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,36 +36,36 @@ int	count_env_len(char *env, char **envp)
 			free(env_name);
 			return (ret_len);
 		}
-		*envp++;
+		envp++;
 	}
 	free(env_name);
 	return (1);
 }
 
-int count_env_var_len(char **token, char *env, char **envp)
+int	count_env_var_len(char **token, char *env, char **envp)
 {
-    int len;
-	
+	int	len;
+
 	len = 0;
-    if (env)
-    {
-        len += count_env_len(env, envp);
-        *token += ft_strlen(env);
-        free(env);
-    }
-    return (len);
+	if (env)
+	{
+		len += count_env_len(env, envp);
+		*token += ft_strlen(env);
+		free(env);
+	}
+	return (len);
 }
 
 /**
  * A single token might contain several $
 //  */
-int		count_expanded_len(char *token, char **envp)
+int	count_expanded_len(char *token, char **envp)
 {
 	int		len;
 	char	*env;
 	bool	in_quote;
 	int		quote_type;
-	
+
 	len = 0;
 	in_quote = false;
 	quote_type = '\0';
@@ -74,7 +74,8 @@ int		count_expanded_len(char *token, char **envp)
 		return (0);
 	while (*token)
 	{
-		if ((!is_dollarsign(*token) && !is_quote(*token)) || (is_dollarsign(*token) && is_singlequote(quote_type)))
+		if ((!is_dollarsign(*token) && !is_quote(*token))
+			|| (is_dollarsign(*token) && is_singlequote(quote_type)))
 			;
 		else if (is_dollarsign(*token))
 		{
@@ -87,14 +88,13 @@ int		count_expanded_len(char *token, char **envp)
 				continue ;
 			}
 		}
-        else if (is_quote(*token))
-            set_in_quote(*token, &in_quote, &quote_type);
+		else if (is_quote(*token))
+			set_in_quote(*token, &in_quote, &quote_type);
 		len++;
-        token++;
+		token++;
 	}
 	return (len);
 }
-
 
 char	*expand_env(char *token, char **envp)
 {
@@ -102,16 +102,15 @@ char	*expand_env(char *token, char **envp)
 	char	*result;
 
 	expanded_len = count_expanded_len(token, envp);
-	result = calloc((expanded_len + 1), sizeof(char)); // ft_calloc()
+	result = ft_calloc((expanded_len + 1), sizeof(char));
 	if (!result)
 	{
-		dprintf(STDERR_FILENO, "malloc failed for expanded env\n");
+		ft_dprintf(STDERR_FILENO, "malloc failed for expanded env\n");
 		exit(MALLOC_ERROR);
 	}
 	dup_expanded_token(result, token, envp);
 	free(token);
 	return (result);
-
 }
 // int	main(int ac, char **av, char **envp)
 // {

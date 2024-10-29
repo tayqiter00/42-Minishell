@@ -6,12 +6,11 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 14:12:22 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/10 18:26:50 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/28 22:36:53 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-# include <sys/stat.h>
 
 void	child_redir(int pipefd[], int prev_pipefd[], int redir_fds[])
 {

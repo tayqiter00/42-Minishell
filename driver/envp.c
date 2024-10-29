@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 15:38:28 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/22 01:08:49 by xquah            ###   ########.fr       */
+/*   Updated: 2024/10/28 22:31:15 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	count_num_env(char **envp)
 	num = 0;
 	while (envp && envp[num++])
 		;
-	return (num - 1);	
+	return (num - 1);
 }
 
 void	free_double_arr(char **arr)
@@ -44,7 +44,7 @@ char	**dup_envp(char **envp)
 
 	i = 0;
 	num_env = count_num_env(envp);
-	buf = calloc(num_env + 1, sizeof(char *)); // ft_calloc()
+	buf = ft_calloc(num_env + 1, sizeof(char *));
 	while (i < num_env)
 		buf[i++] = ft_strdup(*envp++);
 	return (buf);

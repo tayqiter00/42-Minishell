@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 23:36:50 by xquah             #+#    #+#             */
-/*   Updated: 2024/10/28 17:33:11 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/28 22:25:02 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ static int	count_exit_args(t_tokennode *args)
 	return (args_count);
 }
 
-static int process_exit_args(t_tokennode *args)
+static int	process_exit_args(t_tokennode *args)
 {
-	int args_count;
-	char *dup_subtoken;
-	char *first_arg;
+	int		args_count;
+	char	*dup_subtoken;
+	char	*first_arg;
 
 	args_count = count_exit_args(args);
 	dup_subtoken = ft_strdup(args->token);
@@ -47,7 +47,7 @@ static int process_exit_args(t_tokennode *args)
 	{
 		if (args_count == 1)
 			handle_numeric_exit(first_arg, dup_subtoken);
-		printf("too many arguments\n");
+		ft_dprintf(STDERR_FILENO, "too many arguments\n");
 	}
 	else
 		handle_non_numeric_exit(dup_subtoken);
@@ -56,7 +56,8 @@ static int process_exit_args(t_tokennode *args)
 }
 
 /**
- * added ft_exit(), in case more things needs to be checked in the function other than just exit()
+ * added ft_exit(), in case more things needs to be checked in the function
+ * other than just exit()
  *
 */
 int	ft_exit(t_tokennode *args)

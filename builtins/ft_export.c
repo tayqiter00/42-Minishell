@@ -3,18 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 15:26:32 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/22 17:05:22 by xquah            ###   ########.fr       */
+/*   Updated: 2024/10/28 22:27:53 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void ft_swap(char **a, char **b)
+void	ft_swap(char **a, char **b)
 {
-	char *temp = *a;
+	char	*temp;
+
+	temp = *a;
 	*a = *b;
 	*b = temp;
 }
@@ -29,7 +31,7 @@ void	sort_envp(char **envp)
 	i = 1;
 	while (i < len)
 	{
-		j = i; 
+		j = i;
 		while (j > 0 && strcmp(envp[j - 1], envp[j]) > 0)
 		{
 			ft_swap(&envp[j - 1], &envp[j]);
@@ -39,17 +41,18 @@ void	sort_envp(char **envp)
 	}
 }
 
-void print_export_envp(char **envp)
+void	print_export_envp(char **envp)
 {
-	char *name;
-	char *value;
+	char	*name;
+	char	*value;
 
 	while (*envp)
 	{
-		if ((is_underscore(**envp) && (*(*envp + 1))) == '=' || is_special_env_name(**envp))
+		if ((is_underscore(**envp) && *(*envp + 1) == '=')
+			|| is_special_env_name(**envp))
 		{
 			envp++;
-			continue;
+			continue ;
 		}
 		name = ft_strndup(*envp, ft_strcspn(*envp, "="));
 		value = ft_strchr(*envp, '=');
@@ -78,8 +81,8 @@ void print_export_envp(char **envp)
 
 int	ft_export(t_tokennode *args, char ***envp)
 {
-	char **d_envp;
-	
+	char	**d_envp;
+
 	insert_valid_args(envp, args);
 	d_envp = dup_envp(*envp);
 	sort_envp(d_envp);

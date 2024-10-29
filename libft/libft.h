@@ -6,13 +6,14 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 18:52:16 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/28 17:47:00 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/28 23:03:47 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# include <stdarg.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <stddef.h>
@@ -49,8 +50,8 @@ void	*ft_calloc(size_t nmemb, size_t size);
 char	*ft_strdup(const char *s);
 char	*ft_strndup(const char *s1, size_t n);
 size_t	ft_strcspn(const char *s, const char *reject);
-char    *ft_strtok(char *str, const char *delim);
- 
+char	*ft_strtok(char *str, const char *delim);
+
 /* Additional functions */
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
@@ -66,7 +67,7 @@ void	ft_putnbr_fd(int n, int fd);
 int		ft_strcmp(char *s1, char *s2);
 
 /* Bonus functions */
-t_list *ft_lstnew(void *content);
+t_list	*ft_lstnew(void *content);
 t_list	*ft_lstlast(t_list *lst);
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 void	ft_lstadd_front(t_list **alst, t_list *new);
@@ -78,5 +79,14 @@ int		ft_lstsize(t_list *lst);
 
 /* Useful functions */
 int		ft_strspn(const char *str, const char *accept);
+char	*ft_strcat(char *dest, const char *src);
+
+/* ft_dprintf*/
+int		ft_dprintf(int fd, const char *format, ...);
+int		ft_dputhex(int fd, unsigned int n, char specifier);
+int		ft_dputnbr(int fd, long n);
+int		ft_dputptr(int fd, void *format);
+int		ft_dputstr(int fd, char *s);
+int		ft_d_u_putnbr(int fd, unsigned int n);
 
 #endif

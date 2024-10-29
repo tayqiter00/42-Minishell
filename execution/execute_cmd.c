@@ -6,21 +6,20 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 02:28:38 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/28 13:36:34 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/28 22:38:18 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-# include <linux/limits.h>
 
 /**
- * Add back char **envp as an argument once cd, 
+ * Add back char **envp as an argument once cd,
  * unset and run execve has been finished
- */
-int run_cmd(t_tokenlist *currcmd, char ***envp)
+*/
+int	run_cmd(t_tokenlist *currcmd, char ***envp)
 {
-	char *cmd;
-	t_tokennode *args;
+	char		*cmd;
+	t_tokennode	*args;
 
 	if (currcmd->head == NULL)
 		return (0);
@@ -44,11 +43,10 @@ int run_cmd(t_tokenlist *currcmd, char ***envp)
 	return (ft_execve(*envp, currcmd));
 }
 
-int handle_normcmd(int prev_pipefd[], t_tokenlist **cmdlist, char ***envp)
+int	handle_normcmd(int prev_pipefd[], t_tokenlist **cmdlist, char ***envp)
 {
 	int				redir_fds[2];
 	int				oristdio[2];
-	int				exitcode;
 	pid_t			pid;
 
 	store_oristdio(oristdio);
@@ -72,10 +70,10 @@ int handle_normcmd(int prev_pipefd[], t_tokenlist **cmdlist, char ***envp)
 	return (0);
 }
 
-int	handle_pipecmd(int pipefd[], int prev_pipefd[], t_tokenlist **cmdlist, char ***envp)
+int	handle_pipecmd(int pipefd[], int prev_pipefd[],
+	t_tokenlist **cmdlist, char ***envp)
 {
 	int		redir_fds[2];
-	int		origio[2];
 	pid_t	pid;
 
 	if (get_redirfds(redir_fds, cmdlist) == -1)
@@ -91,18 +89,20 @@ int	handle_pipecmd(int pipefd[], int prev_pipefd[], t_tokenlist **cmdlist, char 
 		close(redir_fds[0]);
 	if (redir_fds[1] != 0)
 		close(redir_fds[1]);
+	return (0);
 }
 
-int	exec_cmdlist(int prev_pipefd[], t_tokenlist **cmdlist, bool with_pipe, char ***envp)
+int	exec_cmdlist(int prev_pipefd[], t_tokenlist **cmdlist,
+	bool with_pipe, char ***envp)
 {
-	int pipefd[2];
+	int	pipefd[2];
 
 	if (with_pipe)
 	{
 		if (pipe(pipefd) == -1)
 		{
-			dprintf(STDERR_FILENO, "pipe failed for pipefd\n");
-			exit(1);
+			ft_dprintf(STDERR_FILENO, "pipe failed for pipefd\n");
+			exit(EXIT_FAILURE);
 		}
 		return (handle_pipecmd(pipefd, prev_pipefd, cmdlist, envp));
 	}

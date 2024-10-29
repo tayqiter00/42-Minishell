@@ -10,6 +10,7 @@ SRC_FILES = driver/minishell.c \
             checkers/char_check_5.c \
             checkers/char_check_6.c \
             checkers/char_check_7.c \
+			libft/ft_calloc.c \
             libft/ft_strspn.c \
             libft/ft_strlen.c \
             libft/ft_strncmp.c \
@@ -29,6 +30,13 @@ SRC_FILES = driver/minishell.c \
             libft/ft_atoi.c \
             libft/ft_isalpha.c \
             libft/ft_strlcat.c \
+			libft/ft_dprintf.c \
+			libft/ft_dputstr.c \
+			libft/ft_dputptr.c \
+			libft/ft_dputnbr.c \
+			libft/ft_d_u_putnbr.c \
+			libft/ft_dputhex.c \
+			libft/ft_dputchar.c \
             readinput/read_input.c \
             processing/env_expansion/expand_env.c \
             processing/env_expansion/expand_env_utils_1.c \
@@ -37,6 +45,7 @@ SRC_FILES = driver/minishell.c \
             builtins/ft_echo.c \
             builtins/ft_pwd.c \
             builtins/ft_cd.c \
+			builtins/ft_cd_utils.c \
             builtins/ft_env.c \
             builtins/ft_exit_utils.c \
             builtins/ft_exit.c \
@@ -61,7 +70,7 @@ OBJS = $(patsubst %.c, $(OBJDIR)%.o, $(SRC_FILES))
 
 # Compilation flags
 # -Wall -Wextra -Werror
-FLAGS = 
+FLAGS = -Wall -Wextra -Werror
 
 MINISHELL = minishell
 NAME = $(MINISHELL)
@@ -79,6 +88,7 @@ $(OBJDIR)%.o: %.c
 	$(CC) $(FLAGS) -c $< -o $@
 
 # Build the final executable
+# -fsanitize=address
 $(NAME): $(OBJS)
 	$(CC) $(OBJS) -o $(NAME) -lreadline
 

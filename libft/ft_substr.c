@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 17:46:34 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/03 18:25:06 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/28 21:17:40 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 
 	i = 0;
 	if (s == NULL)
-		exit(3);
+		exit(EXIT_FAILURE);
 	s_len = ft_strlen(s);
 	if (start >= s_len)
 		return (ft_strdup(""));

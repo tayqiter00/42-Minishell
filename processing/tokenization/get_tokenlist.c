@@ -6,24 +6,24 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:59:22 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/28 13:46:01 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/28 23:15:43 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_tokenlist *create_tokenlist(void)
+t_tokenlist	*create_tokenlist(void)
 {
-    t_tokenlist *tokenlist;
+	t_tokenlist	*tokenlist;
 
-    tokenlist = malloc(sizeof(t_tokenlist));
-    if (tokenlist == NULL)
+	tokenlist = malloc(sizeof(t_tokenlist));
+	if (tokenlist == NULL)
 	{
-        dprintf(STDERR_FILENO, "malloc failed for create_tokenlist\n");
+		ft_dprintf(STDERR_FILENO, "malloc failed for create_tokenlist\n");
 		exit(MALLOC_ERROR);
 	}
-    tokenlist->head = NULL;
-    return (tokenlist);
+	tokenlist->head = NULL;
+	return (tokenlist);
 }
 
 /**
@@ -31,107 +31,47 @@ t_tokenlist *create_tokenlist(void)
  * backslashes), we won't know if it should be treated as a metacharacter
  * anymore.
  */
-t_tokennode *create_tokennode(char *token, bool metachar)
+t_tokennode	*create_tokennode(char *token, bool metachar)
 {
-    t_tokennode *new_tokennode;
+	t_tokennode	*new_tokennode;
 
 	if (!token)
 		return (NULL);
-    new_tokennode = malloc(sizeof(t_tokennode));
-    if (new_tokennode == NULL)
+	new_tokennode = malloc(sizeof(t_tokennode));
+	if (new_tokennode == NULL)
 	{
-        dprintf(STDERR_FILENO, "malloc failed for create_tokennode\n");
+		ft_dprintf(STDERR_FILENO, "malloc failed for create_tokennode\n");
 		exit(MALLOC_ERROR);
 	}
-    new_tokennode->token = token;
-    new_tokennode->next = NULL;
+	new_tokennode->token = token;
+	new_tokennode->next = NULL;
 	new_tokennode->is_meta_char = metachar;
-    return (new_tokennode);
+	return (new_tokennode);
 }
 
 t_tokennode	*get_lastnode(t_tokenlist *tokenlist)
 {
 	t_tokennode	*last;
-	
+
 	last = tokenlist->head;
 	while (last->next)
 		last = last->next;
 	return (last);
 }
 
-void    link_tokenlist(t_tokennode *tokennode, t_tokenlist *tokenlist)
+void	link_tokenlist(t_tokennode *tokennode, t_tokenlist *tokenlist)
 {
 	t_tokennode	*last;
 
-    if (!tokennode || !tokenlist)
-        return ;
-    if (tokenlist->head == NULL)
-        tokenlist->head = tokennode;
-    else
+	if (!tokennode || !tokenlist)
+		return ;
+	if (tokenlist->head == NULL)
+		tokenlist->head = tokennode;
+	else
 	{
 		last = get_lastnode(tokenlist);
 		last->next = tokennode;
 	}
-}
-
-void initialize_processing_state(bool *heredoc_file, bool *metachar)
-{
-    *heredoc_file = false;
-    *metachar = false;
-}
-
-void create_and_link_token_node(t_tokenlist *tokenlist, char *token, bool metachar)
-{
-    t_tokennode *tokennode;
-
-    tokennode = create_tokennode(token, metachar);   // Create a new token node
-    link_tokenlist(tokennode, tokenlist);            // Link the node to the token list
-}
-
-char *process_heredoc(char *token, t_tokenlist *tokenlist, char **envp, bool metachar)
-{
-    token = create_heredoc(token, envp, metachar);  // Handle heredoc creation
-    if (!token)  // In case heredoc creation fails
-    {
-        free_tokenlist(tokenlist);
-        return NULL;
-    }
-    return token;
-}
-
-char *expand_and_sanitize_token(char *token, char **envp)
-{
-    token = expand_env(token, envp);  // Expand environment variables
-    token = sanitize_token(token);    // Sanitize the token
-    return token;
-}
-
-bool is_metachar_token(char *token)
-{
-    return is_metachar(token);  // Check if token is a metacharacter
-}
-
-char *process_token(char *token, t_tokenlist *tokenlist, bool *heredoc_file, char **envp, bool *metachar)
-{
-    if (is_heredoc(token) && !(*heredoc_file))
-    {
-        *heredoc_file = true;
-    }
-    else if (*heredoc_file)
-    {
-        token = process_heredoc(token, tokenlist, envp, *metachar);
-        *heredoc_file = false;
-    }
-    else
-    {
-        token = expand_and_sanitize_token(token, envp);
-    }
-    return token;
-}
-
-void update_metachar_state(char *token, bool *metachar)
-{
-    *metachar = is_metachar_token(token);
 }
 
 /**
@@ -139,27 +79,27 @@ void update_metachar_state(char *token, bool *metachar)
  */
 t_tokenlist	*get_tokenlist(char *input, char **envp) 
 {
-    t_tokenlist *tokenlist;
-    char        *token;
-    t_tokennode *tokennode;
+	t_tokenlist	*tokenlist;
+	char		*token;
+	t_tokennode	*tokennode;
 	bool		heredoc_file;
 	bool		metachar;
 
 	if (input == NULL)
 		return (NULL);
 	heredoc_file = false;
-    tokenlist = create_tokenlist(); // malloc
-    token = get_next_token(input); // malloc (freed in expand_env)
-    while (token)
-    {
+	tokenlist = create_tokenlist();
+	token = get_next_token(input);
+	while (token)
+	{
 		metachar = false;
 		if (is_metachar(token))
 			metachar = true;
-		if (is_heredoc(token) && !heredoc_file) // <<
+		if (is_heredoc(token) && !heredoc_file)
 			heredoc_file = true;
 		else if (heredoc_file)
 		{
-			token = create_heredoc(token, envp, metachar); // name of heredoc file returned
+			token = create_heredoc(token, envp, metachar);
 			if (!token)
 			{
 				free_tokenlist(tokenlist);
@@ -169,15 +109,14 @@ t_tokenlist	*get_tokenlist(char *input, char **envp)
 		}
 		else
 		{
-			token = expand_env(token, envp); // malloc
+			token = expand_env(token, envp);
 			token = sanitize_token(token);
 		}
-        tokennode = create_tokennode(token, metachar); // malloc
-        link_tokenlist(tokennode, tokenlist);
-        token = get_next_token(NULL);
-    }
-	// free(token);
-    return (tokenlist);
+		tokennode = create_tokennode(token, metachar);
+		link_tokenlist(tokennode, tokenlist);
+		token = get_next_token(NULL);
+	}
+	return (tokenlist);
 }
 
 // int	main()

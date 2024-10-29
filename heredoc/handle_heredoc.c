@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 15:51:05 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/28 18:04:12 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/28 22:40:23 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	count_heredocs(t_tokenlist *tokenlist)
 			count++;
 		current = current->next;
 	}
-	return (count);	
+	return (count);
 }
 
 int	eval_heredocs(t_tokenlist **tokenlist)
@@ -86,7 +86,7 @@ void	read_terminal(char *delim, char **envp, int heredoc_fd)
 	has_quotes = false;
 	if (ft_strchr(delim, '"') || ft_strchr(delim, '\''))
 		has_quotes = true;
-	delim = sanitize_token(delim); // quote removals for actual delimiter
+	delim = sanitize_token(delim);
 	pid = create_fork();
 	if (pid == 0)
 	{
@@ -98,7 +98,8 @@ void	read_terminal(char *delim, char **envp, int heredoc_fd)
 				break ;
 			if (input == NULL)
 			{
-				dprintf(STDERR_FILENO, "warning: here-document delimited by end-of-file\n"); // ft
+				ft_dprintf(STDERR_FILENO,
+					"warning: here-document delimited by end-of-file\n");
 				free(delim);
 				exit(get_exit_status());
 			}
@@ -114,7 +115,6 @@ void	read_terminal(char *delim, char **envp, int heredoc_fd)
 	wait_for_child();
 	config_signals();
 	free(delim);
-	// free(input);
 }
 
 /**
@@ -140,11 +140,11 @@ char	*create_heredoc(char *delim, char **envp, bool metachar)
 	static int	count = 0;
 	int			heredoc_fd;
 	char		*path;
-	
+
 	if (metachar)
 	{
 		free(delim);
-		dprintf(STDERR_FILENO, "syntax error near unexpected token\n"); // ft_dprintf
+		ft_dprintf(STDERR_FILENO, "syntax error near unexpected token\n");
 		return (NULL);
 	}
 	num = ft_itoa(count);
@@ -153,14 +153,11 @@ char	*create_heredoc(char *delim, char **envp, bool metachar)
 	heredoc_fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	if (heredoc_fd == -1)
 	{
-		dprintf(STDERR_FILENO, "open failed for heredoc_fd\n"); // ft_dprintf
+		ft_dprintf(STDERR_FILENO, "open failed for heredoc_fd\n");
 		exit(OPEN_ERROR);
 	}
 	read_terminal(delim, envp, heredoc_fd);
-	close(heredoc_fd); // right now the name of the temp file still persists so need to unlink() later
+	close(heredoc_fd);
 	count++;
-	return (path);	
+	return (path);
 }
-
-
-

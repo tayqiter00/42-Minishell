@@ -3,23 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:19:30 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/28 14:33:59 by xquah            ###   ########.fr       */
+/*   Updated: 2024/10/28 22:36:04 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+#if defined(__linux__)
+    #define OS_LINUX
+#elif defined(__APPLE__) && defined(__MACH__)
+    #define OS_MAC
+#else
+    #error "Unknown operating system"
+#endif
+
 # include "token.h"
 # include "sys_headers.h"
-# include <dirent.h>
 # include "../libft/libft.h"
 
 # define R_END 0
 # define W_END 1
+# define INFILE 0
+# define OUTFILE 1
 # define SYNTAX_ERROR 2
 # define MALLOC_ERROR 3
 # define OPEN_ERROR 4
@@ -69,6 +78,8 @@ void		dup_expanded_token(char *expanded_env, char *token, char **envp);
 int			ft_pwd(void);
 int			ft_echo(t_tokennode *args);
 int			ft_cd(t_tokennode *args, char **envp);
+int			cd_home(char **envp);
+char		*update_oldpwd(char *curdir);
 int			ft_env(char **envp);
 int			ft_exit();
 int			ft_export(t_tokennode *args, char ***envp);

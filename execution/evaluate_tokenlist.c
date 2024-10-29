@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 05:55:09 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/28 17:36:23 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/28 22:33:46 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_tokennode	*pop_tokennode(t_tokenlist *tokenlist)
 {
 	t_tokennode	*popnode;
-	
+
 	if (tokenlist == NULL || tokenlist->head == NULL)
 		return (NULL);
 	popnode = tokenlist->head;
@@ -25,24 +25,26 @@ t_tokennode	*pop_tokennode(t_tokenlist *tokenlist)
 }
 
 /**
- * technically, bash doesnt give 130 if you ctrl+C with pipe but a cmd runs
+ * First checks if child was terminated by a signal.
+ * 
+ * Technically, bash doesnt give 130 if you ctrl+C with pipe but a cmd runs
  */
 void	wait_for_child(void)
 {
-	int	exit_status;
+	int		exit_status;
 	bool	newline;
 
 	newline = false;
 	while (waitpid(-1, &exit_status, 0) > 0)
 	{
-		if (WIFSIGNALED(exit_status)) // checks if the child process was terminated by a signal
+		if (WIFSIGNALED(exit_status))
 		{
-			if (WTERMSIG(exit_status) == 3) // SIGQUIT
-				dprintf(2, "Quit: 3\n"); // ft
-			else if (WTERMSIG(exit_status) == 2  && !newline) // SIGINT
+			if (WTERMSIG(exit_status) == 3)
+				ft_dprintf(STDERR_FILENO, "Quit: 3\n");
+			else if (WTERMSIG(exit_status) == 2 && !newline)
 			{
 				newline = true;
-				dprintf(2, "\n"); // ft
+				ft_dprintf(STDERR_FILENO, "\n");
 			}
 			set_exit_status(128 + WTERMSIG(exit_status));
 		}
@@ -65,8 +67,9 @@ void	eval_tokenlist(t_tokenlist *tokenlist, int heredoc_count, char ***envp)
 	while (tokenlist && tokenlist->head)
 	{
 		cmdlist = create_tokenlist();
-		while (tokenlist->head && (!is_pipe(*(tokenlist->head->token)) || 
-			(is_pipe(*(tokenlist->head->token)) && !tokenlist->head->is_meta_char)))
+		while (tokenlist->head && (!is_pipe(*(tokenlist->head->token))
+				|| (is_pipe(*(tokenlist->head->token))
+					&& !tokenlist->head->is_meta_char)))
 			link_tokenlist(pop_tokennode(tokenlist), cmdlist);
 		if (exec_cmdlist(prev_pipefd, &cmdlist, tokenlist->head, envp))
 		{

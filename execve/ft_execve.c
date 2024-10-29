@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:00:46 by xquah             #+#    #+#             */
-/*   Updated: 2024/10/28 17:41:53 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/28 22:38:57 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ static char	**currcmd_to_2d_array(t_tokenlist *currcmd)
 	result = malloc(sizeof(char *) * (count_cmdlist(currcmd) + 1));
 	if (result == NULL)
 	{
-		printf("malloc failed for result\n");
-		exit(-1);
+		ft_dprintf(STDERR_FILENO, "malloc failed for result\n");
+		exit(EXIT_FAILURE);
 	}
 	i = 0;
 	current = currcmd->head;
@@ -61,8 +61,8 @@ static char	**currcmd_to_2d_array(t_tokenlist *currcmd)
 		result[i] = ft_strdup(current->token);
 		if (result[i] == NULL)
 		{
-			printf("ft_strdup failed for result[%d]\n", i);
-			exit(-1);
+			ft_dprintf(STDERR_FILENO, "ft_strdup failed for result[%d]\n", i);
+			exit(EXIT_FAILURE);
 		}
 		i++;
 		current = current->next;
@@ -110,17 +110,19 @@ int	ft_execve(char **envp, t_tokenlist *cmd)
 	if (bin == NULL)
 	{
 		if (!ft_strcmp(args[0], "."))
-			printf("%s: filename argument required\n", args[0]);
+			ft_dprintf(STDERR_FILENO,
+				"%s: filename argument required\n", args[0]);
 		else if (ft_strchr(args[0], '/') && !has_alpha(args[0]))
-			printf("%s: is a directory\n", args[0]);
+			ft_dprintf(STDERR_FILENO, "%s: is a directory\n", args[0]);
 		else if (ft_strchr(args[0], '/'))
-			printf("%s: No such file or directory\n", args[0]);
+			ft_dprintf(STDERR_FILENO,
+				"%s: No such file or directory\n", args[0]);
 		else if (ft_strlen(args[0]) == 0)
-			return (printf("\'\': command not found\n"), 127);
+			ft_dprintf(STDERR_FILENO, "\'\': command not found\n");
 		else
-			return (dprintf(STDERR_FILENO, "%s: command not found\n", args[0]), 127);
+			ft_dprintf(STDERR_FILENO, "%s: command not found\n", args[0]);
 		free_double_arr(args);
-		return (-1);
+		return (127);
 	}
 	execve(bin, args, envp);
 	free_double_arr(args);

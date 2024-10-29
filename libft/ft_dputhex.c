@@ -1,23 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_dputhex.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/02 14:21:20 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/28 20:47:58 by qtay             ###   ########.fr       */
+/*   Created: 2024/03/12 14:27:44 by qtay              #+#    #+#             */
+/*   Updated: 2024/10/28 22:58:39 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-int	ft_pwd(void)
+int	ft_dputhex(int fd, unsigned int n, char specifier)
 {
-	char	buf[PATH_MAX];
-	char	*cwd;
+	int		count;
+	char	*base;
 
-	cwd = getcwd(buf, PATH_MAX - 1);
-	printf("%s\n", cwd);
-	return (0);
+	count = 0;
+	if (specifier == 'x')
+		base = "0123456789abcdef";
+	else
+		base = "0123456789ABCDEF";
+	if (n > 15)
+		count += ft_dputhex(fd, n / 16, specifier);
+	count += ft_dputchar(*(base + (n % 16)), fd);
+	return (count);
 }
+
+/*
+int	main()
+{
+	printf("[%d]\n", ft_puthex(1234, 'X'));
+	return (0);
+}*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 15:44:45 by xquah             #+#    #+#             */
-/*   Updated: 2024/10/08 23:29:50 by xquah            ###   ########.fr       */
+/*   Updated: 2024/10/28 22:28:16 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ static char	*realloc_entry(char *entry)
 	temp = malloc(ft_strlen(entry) + 1);
 	ft_strlcpy(temp, entry, ft_strlen(entry));
 	free(entry);
-	return temp;
+	return (temp);
 }
 
 //passed each line of the envp
 //loop through args and check if the current line of envp is the unset args
 //if yes
-static char *unset_entry(char *entry, t_tokennode *args)
+static char	*unset_entry(char *entry, t_tokennode *args)
 {
 	int			env_name_len;
 	t_tokennode	*current_arg;
@@ -43,7 +43,7 @@ static char *unset_entry(char *entry, t_tokennode *args)
 			entry = realloc_entry(entry);
 			if (!entry)
 			{
-				printf("ft_realloc failed for entry\n");
+				ft_dprintf(STDERR_FILENO, "ft_realloc failed for entry\n");
 				exit(-1);
 			}
 			*entry = '\0';
@@ -54,7 +54,7 @@ static char *unset_entry(char *entry, t_tokennode *args)
 	return (entry);
 }
 
-int ft_unset(char **envp, t_tokennode *args)
+int	ft_unset(char **envp, t_tokennode *args)
 {
 	if (args == NULL)
 		return (0);

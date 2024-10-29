@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 18:26:00 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/05 02:02:02 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/28 23:05:38 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ bool	is_valid_env(char *token)
 {
 	return (is_dollarsign(*token)
 		&& (ft_isalnum(*(token + 1))
-		|| is_underscore(*(token + 1))
-		|| is_questionmark(*(token + 1))));
+			|| is_underscore(*(token + 1))
+			|| is_questionmark(*(token + 1))));
 }
 
 bool	is_valid_key(int c)
@@ -37,25 +37,26 @@ char	*get_env_start(char *token)
 	bool	in_quote;
 	int		quote_type;
 	bool	should_escape;
-	
+
 	in_quote = false;
 	quote_type = '\0';
 	should_escape = false;
 	while (*token)
 	{
-        if (is_backslash(*token) && !is_singlequote(quote_type) && !should_escape)
-            should_escape = true;
-        else if (is_quote(*token) && !should_escape)
-            set_in_quote(*token, &in_quote, &quote_type);
-        else if (!should_escape && !is_singlequote(quote_type) && is_valid_env(token))
-            break ;
-        else if (should_escape)
-            should_escape = false;
-        token++;		
+		if (is_backslash(*token) && !is_singlequote(quote_type)
+			&& !should_escape)
+			should_escape = true;
+		else if (is_quote(*token) && !should_escape)
+			set_in_quote(*token, &in_quote, &quote_type);
+		else if (!should_escape && !is_singlequote(quote_type)
+			&& is_valid_env(token))
+			break ;
+		else if (should_escape)
+			should_escape = false;
+		token++;
 	}
 	return (token);
 }
-
 
 /**
  * Returns an empty string if no unescaped '$' sign is found

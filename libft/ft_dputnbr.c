@@ -1,23 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_dputnbr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/02 14:21:20 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/28 20:47:58 by qtay             ###   ########.fr       */
+/*   Created: 2024/03/12 14:28:02 by qtay              #+#    #+#             */
+/*   Updated: 2024/10/28 22:58:53 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-int	ft_pwd(void)
+int	ft_dputnbr(int fd, long n)
 {
-	char	buf[PATH_MAX];
-	char	*cwd;
+	int	count;
 
-	cwd = getcwd(buf, PATH_MAX - 1);
-	printf("%s\n", cwd);
-	return (0);
+	count = 0;
+	if (n < 0)
+	{
+		ft_dputchar('-', fd);
+		count++;
+		n = -n;
+	}
+	if (n > 9)
+		count += ft_dputnbr(fd, n / 10);
+	count += ft_dputchar(n % 10 + '0', fd);
+	return (count);
 }
+/*
+int	main()
+{
+	printf("[%d]\n", ft_putnbr(2147483647));
+	return (0);
+}*/

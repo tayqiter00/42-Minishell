@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 13:43:41 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/30 23:06:46 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/28 20:57:00 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	main(int ac, char **av, char **envp)
 {
 	char		*input;
 	t_tokenlist	*tokenlist;
-	t_tokenlist	*saved;
 	int			heredoc_count;
 
 	((void)ac, (void)av);

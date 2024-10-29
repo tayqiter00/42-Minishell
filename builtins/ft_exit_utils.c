@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 19:57:43 by xquah             #+#    #+#             */
-/*   Updated: 2024/10/26 20:53:23 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/28 22:03:33 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool	contain_only_digits(char *first_arg)
 	if (*first_arg == '\0')
 		return (false);
 	digits_len = ft_strspn(first_arg, "0123456789 ");
-	return (digits_len == ft_strlen(first_arg));
+	return (digits_len == (int)ft_strlen(first_arg));
 }
 
 int	normalize_exit_code(char *first_arg)
@@ -49,7 +49,7 @@ void	handle_numeric_exit(char *first_arg, char *dup_subtoken)
  */
 void	handle_non_numeric_exit(char *dup_subtoken)
 {
-	printf("numeric argument required\n");
+	ft_dprintf(STDERR_FILENO, "numeric argument required\n");
 	free(dup_subtoken);
 	exit(2);
 }

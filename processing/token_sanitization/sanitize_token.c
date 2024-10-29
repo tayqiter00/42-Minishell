@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 14:09:15 by qtay              #+#    #+#             */
-/*   Updated: 2024/09/03 18:23:21 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/28 23:08:12 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ void	dup_sanitized_token(char *result, char *token)
 	bool	in_quote;
 	int		quote_type;
 	bool	should_escape;
-	
+
 	in_quote = false;
 	quote_type = '\0';
 	should_escape = false;
 	while (*token)
 	{
 		if (is_backslash(*token) && !should_escape && (!is_quote(quote_type)
-			|| (is_doublequote(quote_type) && is_escapable(*(token + 1)))))
+				|| (is_doublequote(quote_type) && is_escapable(*(token + 1)))))
 			should_escape = true;
 		else if (!should_escape && is_singlequote(*token) && quote_type != '"')
 			set_in_quote(*token, &in_quote, &quote_type);
@@ -59,14 +59,13 @@ char	*sanitize_token(char *token)
 {
 	char	*result;
 
-	result = calloc(ft_strlen(token) + 1, sizeof(char));
+	result = ft_calloc(ft_strlen(token) + 1, sizeof(char));
 	if (!result)
 	{
-		dprintf(STDERR_FILENO, "malloc failed for removed quotes\n"); // ft_dprintf()
+		ft_dprintf(STDERR_FILENO, "malloc failed for removed quotes\n");
 		exit(MALLOC_ERROR);
 	}
 	dup_sanitized_token(result, token);
 	free(token);
-	return(result);
+	return (result);
 }
-

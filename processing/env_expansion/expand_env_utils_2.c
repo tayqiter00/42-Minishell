@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 00:43:42 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/28 17:54:51 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/28 23:06:27 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	dup_env_value(char *expanded_env, char *env, char **envp)
 
 	if (ft_strncmp(env, "$?", ft_strlen(env)) == 0)
 	{
-		env_name = ft_itoa(get_exit_status()); // malloc
-		strcat(expanded_env, env_name); // ft_strcat()
+		env_name = ft_itoa(get_exit_status());
+		ft_strlcat(expanded_env, env_name, sizeof(expanded_env));
 		free(env_name);
 		return ;
 	}
@@ -31,14 +31,15 @@ void	dup_env_value(char *expanded_env, char *env, char **envp)
 	{
 		if (ft_strncmp(*envp, env_name, ft_strlen(env_name)) == 0)
 		{
-			strcat(expanded_env, *envp + ft_strlen(env_name)); // define ft_strcat()
+			ft_strlcat(expanded_env, *envp + ft_strlen(env_name),
+				sizeof(expanded_env));
 			free(env_name);
 			return ;
 		}
-		*envp++;
+		envp++;
 	}
 	free(env_name);
-	strcat(expanded_env, ""); // define ft_strcat()
+	ft_strlcat(expanded_env, "", sizeof(expanded_env));
 }
 
 void	dup_expanded_token(char *expanded_env, char *token, char **envp)
@@ -46,7 +47,7 @@ void	dup_expanded_token(char *expanded_env, char *token, char **envp)
 	char	*env;
 	bool	in_quote;
 	int		quote_type;
-	
+
 	in_quote = false;
 	quote_type = '\0';
 	env = get_next_env(token);
@@ -54,7 +55,8 @@ void	dup_expanded_token(char *expanded_env, char *token, char **envp)
 		return ;
 	while (*token)
 	{
-		if ((!is_dollarsign(*token) && !is_quote(*token)) || (is_dollarsign(*token) && is_singlequote(quote_type)))
+		if ((!is_dollarsign(*token) && !is_quote(*token))
+			|| (is_dollarsign(*token) && is_singlequote(quote_type)))
 			;
 		else if (is_dollarsign(*token))
 		{
@@ -69,9 +71,9 @@ void	dup_expanded_token(char *expanded_env, char *token, char **envp)
 				token++;
 			continue ;
 		}
-        else if (is_quote(*token))
-            set_in_quote(*token, &in_quote, &quote_type);
+		else if (is_quote(*token))
+			set_in_quote(*token, &in_quote, &quote_type);
 		expanded_env[ft_strlen(expanded_env)] = *token;
 		token++;
 	}
-} 
+}

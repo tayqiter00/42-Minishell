@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 23:50:40 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/28 14:22:48 by xquah            ###   ########.fr       */
+/*   Updated: 2024/10/28 22:36:27 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ pid_t	create_fork(void)
 	pid = fork();
 	if (pid == -1)
 	{
-		dprintf(STDERR_FILENO, "fork failed for pid\n"); // ft
+		ft_dprintf(STDERR_FILENO, "fork failed for pid\n");
 		exit(EXIT_FAILURE);
 	}
 	return (pid);
@@ -64,7 +64,8 @@ int	get_infilefd(t_tokenlist *redirlist)
 				close(infilefd);
 			if (!node->next)
 			{
-				dprintf(STDERR_FILENO, "syntax error near unexpected token\n");
+				ft_dprintf(STDERR_FILENO,
+					"syntax error near unexpected token\n");
 				set_exit_status(2);
 				return (-2);
 			}
@@ -72,7 +73,8 @@ int	get_infilefd(t_tokenlist *redirlist)
 			infilefd = open(filename, O_RDONLY, 0644);
 			if (infilefd == -1)
 			{
-				dprintf(STDERR_FILENO, "%s: No such file or directory\n", filename); // ft
+				ft_dprintf(STDERR_FILENO, "%s: No such file or directory\n",
+					filename);
 				set_exit_status(1);
 				return (-1);
 			}
@@ -84,9 +86,9 @@ int	get_infilefd(t_tokenlist *redirlist)
 
 int get_outfilefd(t_tokenlist *redirlist)
 {
-	t_tokennode *node;
-	int outfilefd;
-	char *filename;
+	t_tokennode	*node;
+	int			outfilefd;
+	char		*filename;
 
 	node = redirlist->head;
 	outfilefd = 0;
@@ -98,7 +100,8 @@ int get_outfilefd(t_tokenlist *redirlist)
 				close(outfilefd);
 			if (!node->next)
 			{
-				dprintf(STDERR_FILENO, "syntax error near unexpected token\n");
+				ft_dprintf(STDERR_FILENO,
+					"syntax error near unexpected token\n");
 				set_exit_status(2);
 				return (-2);
 			}
@@ -109,7 +112,7 @@ int get_outfilefd(t_tokenlist *redirlist)
 				outfilefd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (outfilefd == -1)
 			{
-				dprintf(STDERR_FILENO, "%s: Is a directory\n", filename); // ft
+				ft_dprintf(STDERR_FILENO, "%s: Is a directory\n", filename);
 				set_exit_status(1);
 				return (-1);
 			}
@@ -124,14 +127,14 @@ int	get_redirfds(int redir_fds[], t_tokenlist **cmdlist)
 	t_tokenlist	*redirlist;
 
 	redirlist = extract_redirs(cmdlist);
-	redir_fds[0] = get_infilefd(redirlist); // redir_fds[INFILE]
+	redir_fds[INFILE] = get_infilefd(redirlist);
 	if (redir_fds[0] < 0)
 	{
 		set_exit_status(-1 * redir_fds[0]);
 		free_tokenlist(redirlist);
-		return (-1); // 
+		return (-1);
 	}
-	redir_fds[1] = get_outfilefd(redirlist); // redir_fds[OUTFILE]
+	redir_fds[OUTFILE] = get_outfilefd(redirlist);
 	if (redir_fds[1] < 0)
 	{
 		set_exit_status(-1 * redir_fds[1]);
