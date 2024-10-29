@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 14:15:10 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/28 23:07:23 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/29 12:11:09 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,20 +56,34 @@ int	count_env_var_len(char **token, char *env, char **envp)
 	return (len);
 }
 
+static int	handle_dollarsign_len(char **token, char **envp, int *len)
+{
+	char	*env;
+
+	env = get_next_env(*token);
+	if (env)
+	{
+		*len += count_env_len(env, envp);
+		*token += ft_strlen(env);
+		free(env);
+		env = get_next_env(NULL);
+		return (1);
+	}
+	return (0);
+}
+
 /**
  * A single token might contain several $
 //  */
 int	count_expanded_len(char *token, char **envp)
 {
 	int		len;
-	char	*env;
 	bool	in_quote;
 	int		quote_type;
 
 	len = 0;
 	in_quote = false;
 	quote_type = '\0';
-	env = get_next_env(token);
 	if (token == NULL)
 		return (0);
 	while (*token)
@@ -79,14 +93,8 @@ int	count_expanded_len(char *token, char **envp)
 			;
 		else if (is_dollarsign(*token))
 		{
-			if (env)
-			{
-				len += count_env_len(env, envp);
-				token += ft_strlen(env);
-				free(env);
-				env = get_next_env(NULL);
+			if (handle_dollarsign_len(&token, envp, &len))
 				continue ;
-			}
 		}
 		else if (is_quote(*token))
 			set_in_quote(*token, &in_quote, &quote_type);

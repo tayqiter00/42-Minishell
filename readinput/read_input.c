@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 13:48:19 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/28 23:17:56 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/29 10:29:14 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ char	*read_inputline(void)
 {
 	char	*input;
 
+	input = NULL;
 	if (isatty(STDIN_FILENO))
 		input = readline("minishell> ");
 	if (input == NULL)

@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 15:26:32 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/28 22:27:53 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/29 10:28:22 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	sort_envp(char **envp)
 	while (i < len)
 	{
 		j = i;
-		while (j > 0 && strcmp(envp[j - 1], envp[j]) > 0)
+		while (j > 0 && ft_strcmp(envp[j - 1], envp[j]) > 0)
 		{
 			ft_swap(&envp[j - 1], &envp[j]);
 			j--;

@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 00:43:42 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/28 23:06:27 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/29 12:16:38 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,29 @@ void	dup_env_value(char *expanded_env, char *env, char **envp)
 	ft_strlcat(expanded_env, "", sizeof(expanded_env));
 }
 
-void	dup_expanded_token(char *expanded_env, char *token, char **envp)
+void	handle_dollarsign_dup(char **expanded_env, char **token, char **envp)
 {
 	char	*env;
+
+	env = get_next_env(*token);
+	if (env)
+	{
+		dup_env_value(*expanded_env, env, envp);
+		*token += ft_strlen(env);
+		free(env);
+		env = get_next_env(NULL);
+	}
+	else
+		(*token)++;
+}
+
+void	dup_expanded_token(char *expanded_env, char *token, char **envp)
+{
 	bool	in_quote;
 	int		quote_type;
 
 	in_quote = false;
 	quote_type = '\0';
-	env = get_next_env(token);
 	if (!token)
 		return ;
 	while (*token)
@@ -60,15 +74,7 @@ void	dup_expanded_token(char *expanded_env, char *token, char **envp)
 			;
 		else if (is_dollarsign(*token))
 		{
-			if (env)
-			{
-				dup_env_value(expanded_env, env, envp);
-				token += ft_strlen(env);
-				free(env);
-				env = get_next_env(NULL);
-			}
-			else
-				token++;
+			handle_dollarsign_dup(&expanded_env, &token, envp);
 			continue ;
 		}
 		else if (is_quote(*token))

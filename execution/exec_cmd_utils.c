@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 23:50:40 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/28 22:36:27 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/29 11:47:32 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int	get_infilefd(t_tokenlist *redirlist)
 {
 	t_tokennode	*node;
 	int			infilefd;
-	char		*filename;
 
 	node = redirlist->head;
 	infilefd = 0;
@@ -60,21 +59,13 @@ int	get_infilefd(t_tokenlist *redirlist)
 	{
 		if (is_heredoc(node->token) || is_infile(node->token))
 		{
-			if (infilefd != 0)
-				close(infilefd);
-			if (!node->next)
-			{
-				ft_dprintf(STDERR_FILENO,
-					"syntax error near unexpected token\n");
-				set_exit_status(2);
+			if (handle_infile_err(infilefd, node->next) == -1)
 				return (-2);
-			}
-			filename = node->next->token;
-			infilefd = open(filename, O_RDONLY, 0644);
+			infilefd = open(node->next->token, O_RDONLY, 0644);
 			if (infilefd == -1)
 			{
 				ft_dprintf(STDERR_FILENO, "%s: No such file or directory\n",
-					filename);
+					node->next->token);
 				set_exit_status(1);
 				return (-1);
 			}
@@ -84,7 +75,7 @@ int	get_infilefd(t_tokenlist *redirlist)
 	return (infilefd);
 }
 
-int get_outfilefd(t_tokenlist *redirlist)
+int	get_outfilefd(t_tokenlist *redirlist)
 {
 	t_tokennode	*node;
 	int			outfilefd;
@@ -96,26 +87,15 @@ int get_outfilefd(t_tokenlist *redirlist)
 	{
 		if (is_outfile(node->token) || is_append(node->token))
 		{
-			if (outfilefd != 0)
-				close(outfilefd);
-			if (!node->next)
-			{
-				ft_dprintf(STDERR_FILENO,
-					"syntax error near unexpected token\n");
-				set_exit_status(2);
+			if (handle_outfile_err(outfilefd, node->next) == -1)
 				return (-2);
-			}
 			filename = node->next->token;
 			if (is_outfile(node->token))
 				outfilefd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			else
 				outfilefd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (outfilefd == -1)
-			{
-				ft_dprintf(STDERR_FILENO, "%s: Is a directory\n", filename);
-				set_exit_status(1);
-				return (-1);
-			}
+				return (print_err(filename), set_exit_status(1), -1);
 		}
 		node = node->next;
 	}

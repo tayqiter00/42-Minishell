@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 18:52:16 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/28 23:03:47 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/29 10:26:02 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ char	*ft_strcat(char *dest, const char *src);
 
 /* ft_dprintf*/
 int		ft_dprintf(int fd, const char *format, ...);
+int		ft_dputchar(char c, int fd);
 int		ft_dputhex(int fd, unsigned int n, char specifier);
 int		ft_dputnbr(int fd, long n);
 int		ft_dputptr(int fd, void *format);

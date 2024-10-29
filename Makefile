@@ -3,6 +3,7 @@ OBJDIR = objs/
 SRC_FILES = driver/minishell.c \
             processing/tokenization/get_next_token.c \
             processing/tokenization/get_tokenlist.c \
+            processing/tokenization/get_tokenlist_utils.c \
             checkers/char_check_1.c \
             checkers/char_check_2.c \
             checkers/char_check_3.c \
@@ -54,6 +55,7 @@ SRC_FILES = driver/minishell.c \
             builtins/ft_export.c \
             builtins/ft_unset.c \
             heredoc/handle_heredoc.c \
+			heredoc/handle_heredoc_utils.c \
             exit_status/exit_status.c \
             driver/envp.c \
             signals/signal.c \
@@ -90,7 +92,7 @@ $(OBJDIR)%.o: %.c
 # Build the final executable
 # -fsanitize=address
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) -o $(NAME) -lreadline
+	$(CC) $(OBJS) -fsanitize=address -o $(NAME) -lreadline
 
 clean:
 	rm -rf $(OBJDIR)

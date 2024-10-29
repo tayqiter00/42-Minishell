@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 19:57:43 by xquah             #+#    #+#             */
-/*   Updated: 2024/10/28 22:03:33 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/29 12:32:54 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,12 @@ void	handle_numeric_exit(char *first_arg, char *dup_subtoken)
 }
 
 /**
- * My bash says exit code for this is 2
+ * My bash says exit code for this is 2 but campus Mac shows 255 so
+ * stick with 255
  */
 void	handle_non_numeric_exit(char *dup_subtoken)
 {
 	ft_dprintf(STDERR_FILENO, "numeric argument required\n");
 	free(dup_subtoken);
-	exit(2);
+	exit(255);
 }

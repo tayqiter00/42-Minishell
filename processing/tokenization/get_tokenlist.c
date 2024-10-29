@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:59:22 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/28 23:15:43 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/29 12:23:41 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	link_tokenlist(t_tokennode *tokennode, t_tokenlist *tokenlist)
 /**
  * create_heredoc seems to work but still need to double check
  */
-t_tokenlist	*get_tokenlist(char *input, char **envp) 
+t_tokenlist	*get_tokenlist(char *input, char **envp)
 {
 	t_tokenlist	*tokenlist;
 	char		*token;
@@ -93,24 +93,11 @@ t_tokenlist	*get_tokenlist(char *input, char **envp)
 	while (token)
 	{
 		metachar = false;
-		if (is_metachar(token))
-			metachar = true;
-		if (is_heredoc(token) && !heredoc_file)
-			heredoc_file = true;
-		else if (heredoc_file)
+		token = process_token(token, envp, &heredoc_file, &metachar);
+		if (!token)
 		{
-			token = create_heredoc(token, envp, metachar);
-			if (!token)
-			{
-				free_tokenlist(tokenlist);
-				return (NULL);
-			}
-			heredoc_file = false;
-		}
-		else
-		{
-			token = expand_env(token, envp);
-			token = sanitize_token(token);
+			free_tokenlist(tokenlist);
+			return (NULL);
 		}
 		tokennode = create_tokennode(token, metachar);
 		link_tokenlist(tokennode, tokenlist);

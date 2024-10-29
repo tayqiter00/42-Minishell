@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 15:51:05 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/28 22:40:23 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/29 11:53:00 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@ void	unlink_heredocs(int heredoc_count)
 		free(heredoc_path);
 	}
 }
+
 void	read_terminal(char *delim, char **envp, int heredoc_fd)
 {
 	bool	has_quotes;
-	char	*input;
 	pid_t	pid;
 
 	has_quotes = false;
@@ -89,28 +89,7 @@ void	read_terminal(char *delim, char **envp, int heredoc_fd)
 	delim = sanitize_token(delim);
 	pid = create_fork();
 	if (pid == 0)
-	{
-		default_signals();
-		while (true)
-		{
-			input = readline("heredoc> ");
-			if (!ft_strcmp(input, delim))
-				break ;
-			if (input == NULL)
-			{
-				ft_dprintf(STDERR_FILENO,
-					"warning: here-document delimited by end-of-file\n");
-				free(delim);
-				exit(get_exit_status());
-			}
-			if (!has_quotes)
-				input = expand_env(input, envp);
-			write(heredoc_fd, input, ft_strlen(input));
-			write(heredoc_fd, "\n", 1);
-			free(input);
-		}
-		exit(get_exit_status());
-	}
+		handle_heredoc_child(delim, envp, heredoc_fd, has_quotes);
 	ignore_signals();
 	wait_for_child();
 	config_signals();
