@@ -11,7 +11,8 @@ SOURCES = \
 	ft_strtrim.c ft_split.c ft_itoa.c ft_strmapi.c ft_striteri.c \
 	ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c \
 	ft_strspn.c ft_d_u_putnbr.c ft_dprintf.c ft_dputhex.c \
-	ft_dputchar.c ft_dputnbr.c ft_dputptr.c ft_dputstr.c
+	ft_dputchar.c ft_dputnbr.c ft_dputptr.c ft_dputstr.c \
+	ft_strcmp.c ft_strtok.c ft_strndup.c ft_strcspn.c
 
 B_SOURCES = \
 	ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c \
