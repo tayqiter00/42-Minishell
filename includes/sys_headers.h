@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:44:53 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/29 10:28:02 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/29 14:54:42 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,6 @@
 # include <sys/types.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-
-# ifdef OS_LINUX
-#  include <linux/limits.h>
-# endif
 
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
