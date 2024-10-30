@@ -82,16 +82,16 @@ all: execlib execrd $(NAME)
 $(NAME): $(OBJ_FILES)
 	@cp $(LIBFT_PATH) $(OBJ_DIR)
 	@$(AR) $(MINISHELL_PATH) $(OBJ_FILES)
-	@$(CC) $(CFLAGS) $(HEADER) $(MINISHELL_PATH) $(RLLIB) $(RLFLAGS) -o $(NAME)
+	$(CC) $(CFLAGS) $(HEADER) $(MINISHELL_PATH) $(RLLIB) $(RLFLAGS) -o $(NAME)
 
 clean:
 	@make -s fclean -C $(LIBFT_DIR)
-	@$(RM) $(MINISHELL_PATH)
-	@$(RM) $(OBJ_DIR)
+	$(RM) $(MINISHELL_PATH)
+	$(RM) $(OBJ_DIR)
 
 fclean: clean
-	@$(RM) $(NAME)
-	@$(RM) $(MINISHELL_PATH)
+	$(RM) $(NAME)
+	$(RM) $(MINISHELL_PATH)
 
 re: fclean all
 
@@ -99,15 +99,18 @@ execlib:
 	@make -s -C $(LIBFT_DIR)
 
 execrd:
-	@curl -O "$(READLINE_URL)"
-	@tar -xzf $(READLINE_TAR_FILE)
-	@rm -rf $(READLINE_TAR_FILE)
-	@cd $(READLINE_SRC_DIR) && ./configure "--prefix=$(PWD)/$(READLINE_DIR)" \
-	&& make && make install && cd ..
-	@rm -rf $(READLINE_SRC_DIR)
-	@echo "#include <stdio.h>\n" > .tmp
-	@cat $(READLINE_INC_DIR)/readline/readline.h >> .tmp
-	@mv .tmp $(READLINE_INC_DIR)/readline/readline.h
+	@if [ ! -d "$(READLINE_LIB_DIR)" ]; then \
+		curl -O "$(READLINE_URL)"; \
+		tar -xzf $(READLINE_TAR_FILE); \
+		rm -rf $(READLINE_TAR_FILE); \
+		cd $(READLINE_SRC_DIR) && ./configure "--prefix=$(PWD)/$(READLINE_DIR)" && make && make install && cd ..;\
+		rm -rf $(READLINE_SRC_DIR); \
+		echo "#include <stdio.h>\n" > .tmp; \
+		cat $(READLINE_INC_DIR)/readline/readline.h >> .tmp; \
+		mv .tmp $(READLINE_INC_DIR)/readline/readline.h; \
+	else \
+		echo "Readline already installed."; \
+	fi
 
 clean_readline:
 	@rm -rf readline/
@@ -116,7 +119,7 @@ clean_readline:
 # Compile each .c file into .o files in the OBJ_DIR, creating necessary directories
 $(OBJ_DIR)%.o: %.c
 	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) $(HEADER) -c $< -o $@
+	$(CC) $(CFLAGS) $(HEADER) -c $< -o $@
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
