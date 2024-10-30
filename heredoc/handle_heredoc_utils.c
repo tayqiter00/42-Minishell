@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 11:49:19 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/29 11:51:39 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/30 21:50:55 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	handle_heredoc_child(char *delim, char **envp, int heredoc_fd,
 {
 	char	*input;
 
-	default_signals();
+	signal(SIGINT, SIG_DFL);
 	while (true)
 	{
 		input = readline("heredoc> ");
