@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:19:30 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/29 12:25:47 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/30 10:41:09 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int			ft_unset(char **envp, t_tokennode *args);
 /* ************************************************************************** */
 int			ft_execve(char **envp, t_tokenlist *cmd);
 int			count_cmdlist(t_tokenlist *currcmd);
+void		construct_path(char *bin, char *path, char **full_path);
 
 /* ************************************************************************** */
 /*                            BUILTINS UTILS                                  */

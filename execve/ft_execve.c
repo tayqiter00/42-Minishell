@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execve.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 17:00:46 by xquah             #+#    #+#             */
-/*   Updated: 2024/10/28 22:38:57 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/30 10:48:14 by xquah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,6 @@ bool	is_executable(char *full_path)
 		return (false);
 	}
 	return (true);
-}
-
-char	*strjoin_sep(char const *s1, char const *s2, char *sep)
-{
-	char	*buffer;
-	int		total_len;
-
-	if (!s1 || !s2)
-		return (NULL);
-	total_len = ft_strlen(s1) + ft_strlen(s2) + ft_strlen(sep);
-	buffer = (char *)malloc(sizeof(char) * (total_len + 1));
-	if (!buffer)
-		exit(3);
-	ft_strlcpy(buffer, s1, total_len + 1);
-	ft_strlcat(buffer, sep, total_len + 1);
-	ft_strlcat(buffer, s2, total_len + 1);
-	return (buffer);
 }
 
 static char	**currcmd_to_2d_array(t_tokenlist *currcmd)
@@ -79,6 +62,8 @@ static char	*find_full_bin_path(char *bin, char **envp)
 
 	if (is_invalid_filename(bin))
 		return (NULL);
+	else if (is_executable(bin) && access(bin, X_OK) == 0)
+		return (bin);
 	i = -1;
 	while (envp[++i])
 	{
@@ -87,10 +72,7 @@ static char	*find_full_bin_path(char *bin, char **envp)
 		path = ft_strtok(envp[i] + 5, ":");
 		while (path)
 		{
-			if (bin[0] == '.' || bin[0] == '/')
-				full_path = strjoin_sep(bin, "", "");
-			else
-				full_path = strjoin_sep(path, bin, "/");
+			construct_path(bin, path, &full_path);
 			if (is_executable(full_path) && access(full_path, X_OK) == 0)
 				return (full_path);
 			free(full_path);
