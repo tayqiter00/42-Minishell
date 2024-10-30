@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xquah <xquah@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:19:30 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/30 10:41:09 by xquah            ###   ########.fr       */
+/*   Updated: 2024/10/30 21:52:27 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 
 # define R_END 0
 # define W_END 1
+# define SUCCESS 0
+# define FAILURE 1
 # define INFILE 0
 # define OUTFILE 1
 # define SYNTAX_ERROR 2
@@ -108,14 +110,13 @@ int			get_exit_status(void);
 void		set_exit_status(int status);
 void		default_signals(void);
 void		ignore_signals(void);
-void		wait_for_child(void);
+int			wait_for_child(void);
 
 /* ************************************************************************** */
 /*                                 EXECUTION                                  */
 /* ************************************************************************** */
 pid_t		create_fork(void);
-void		eval_tokenlist(t_tokenlist *tokenlist, int heredoc_count,
-				char ***envp);
+void		eval_tokenlist(t_tokenlist *tokenlist, char ***envp);
 int			exec_cmdlist(int prev_pipefd[], t_tokenlist **cmdlist,
 				bool with_pipe, char ***envp);
 

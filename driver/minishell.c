@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 13:43:41 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/28 20:57:00 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/30 21:46:30 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	main(int ac, char **av, char **envp)
 		input = read_inputline();
 		tokenlist = get_tokenlist(input, envp);
 		heredoc_count = eval_heredocs(&tokenlist);
-		eval_tokenlist(tokenlist, heredoc_count, &envp);
+		eval_tokenlist(tokenlist, &envp);
 		free(input);
 		free_tokenlist(tokenlist);
 		unlink_heredocs(heredoc_count);

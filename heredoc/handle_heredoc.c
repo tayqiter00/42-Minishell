@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 15:51:05 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/29 11:53:00 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/30 21:50:20 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,11 @@ void	unlink_heredocs(int heredoc_count)
 	}
 }
 
-void	read_terminal(char *delim, char **envp, int heredoc_fd)
+int	read_terminal(char *delim, char **envp, int heredoc_fd)
 {
 	bool	has_quotes;
 	pid_t	pid;
+	bool	status;
 
 	has_quotes = false;
 	if (ft_strchr(delim, '"') || ft_strchr(delim, '\''))
@@ -91,9 +92,10 @@ void	read_terminal(char *delim, char **envp, int heredoc_fd)
 	if (pid == 0)
 		handle_heredoc_child(delim, envp, heredoc_fd, has_quotes);
 	ignore_signals();
-	wait_for_child();
+	status = wait_for_child();
 	config_signals();
 	free(delim);
+	return (status);
 }
 
 /**
@@ -135,7 +137,8 @@ char	*create_heredoc(char *delim, char **envp, bool metachar)
 		ft_dprintf(STDERR_FILENO, "open failed for heredoc_fd\n");
 		exit(OPEN_ERROR);
 	}
-	read_terminal(delim, envp, heredoc_fd);
+	if (read_terminal(delim, envp, heredoc_fd) == FAILURE)
+		return (close(heredoc_fd), NULL);
 	close(heredoc_fd);
 	count++;
 	return (path);

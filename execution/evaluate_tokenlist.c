@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 05:55:09 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/28 22:33:46 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/30 21:48:21 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,19 @@ t_tokennode	*pop_tokennode(t_tokenlist *tokenlist)
  * 
  * Technically, bash doesnt give 130 if you ctrl+C with pipe but a cmd runs
  */
-void	wait_for_child(void)
+int	wait_for_child(void)
 {
 	int		exit_status;
 	bool	newline;
+	bool	return_status;
 
 	newline = false;
+	return_status = SUCCESS;
 	while (waitpid(-1, &exit_status, 0) > 0)
 	{
 		if (WIFSIGNALED(exit_status))
 		{
+			return_status = FAILURE;
 			if (WTERMSIG(exit_status) == 3)
 				ft_dprintf(STDERR_FILENO, "Quit: 3\n");
 			else if (WTERMSIG(exit_status) == 2 && !newline)
@@ -51,17 +54,18 @@ void	wait_for_child(void)
 		else if (WIFEXITED(exit_status))
 			set_exit_status(WEXITSTATUS(exit_status));
 	}
+	return (return_status);
 }
 
 /**
  * how to make sure it's not "|" 
  */
-void	eval_tokenlist(t_tokenlist *tokenlist, int heredoc_count, char ***envp)
+void	eval_tokenlist(t_tokenlist *tokenlist, char ***envp)
 {
 	t_tokenlist	*cmdlist;
 	int			prev_pipefd[2];
 
-	if (!tokenlist || (heredoc_count && get_exit_status() == 130))
+	if (!tokenlist)
 		return ;
 	ft_bzero(prev_pipefd, sizeof(int) * 2);
 	while (tokenlist && tokenlist->head)
