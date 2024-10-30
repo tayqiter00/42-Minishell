@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 00:43:42 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/29 12:16:38 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/30 21:56:34 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	dup_env_value(char *expanded_env, char *env, char **envp)
 	if (ft_strncmp(env, "$?", ft_strlen(env)) == 0)
 	{
 		env_name = ft_itoa(get_exit_status());
-		ft_strlcat(expanded_env, env_name, sizeof(expanded_env));
+		ft_strcat(expanded_env, env_name);
 		free(env_name);
 		return ;
 	}
@@ -31,15 +31,14 @@ void	dup_env_value(char *expanded_env, char *env, char **envp)
 	{
 		if (ft_strncmp(*envp, env_name, ft_strlen(env_name)) == 0)
 		{
-			ft_strlcat(expanded_env, *envp + ft_strlen(env_name),
-				sizeof(expanded_env));
+			ft_strcat(expanded_env, *envp + ft_strlen(env_name));
 			free(env_name);
 			return ;
 		}
 		envp++;
 	}
 	free(env_name);
-	ft_strlcat(expanded_env, "", sizeof(expanded_env));
+	ft_strcat(expanded_env, "");
 }
 
 void	handle_dollarsign_dup(char **expanded_env, char **token, char **envp)
