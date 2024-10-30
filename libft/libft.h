@@ -6,7 +6,7 @@
 /*   By: qtay <qtay@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 18:52:16 by qtay              #+#    #+#             */
-/*   Updated: 2024/10/29 10:26:02 by qtay             ###   ########.fr       */
+/*   Updated: 2024/10/30 21:53:09 by qtay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int		ft_lstsize(t_list *lst);
 
 /* Useful functions */
 int		ft_strspn(const char *str, const char *accept);
-char	*ft_strcat(char *dest, const char *src);
+char	*ft_strcat(char *dest, char *src);
 
 /* ft_dprintf*/
 int		ft_dprintf(int fd, const char *format, ...);
