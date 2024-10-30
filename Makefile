@@ -115,7 +115,7 @@ clean_readline:
 
 # Compile each .c file into .o files in the OBJ_DIR, creating necessary directories
 $(OBJ_DIR)%.o: %.c
-	@mkdir -p $(dir $@)    # Create the directory for the object file if it doesn't exist
+	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) $(HEADER) -c $< -o $@
 
 $(OBJ_DIR):
